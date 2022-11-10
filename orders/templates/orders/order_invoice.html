@@ -1,0 +1,154 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <style>
+        @font-face {
+            font-family: "Alice-Regular";
+            src: url("/static/fonts/Alice-Regular.ttf") format("truetype");
+        }
+       
+        .bg-black {
+            background-color: #1e2028;
+        }
+        .bg-white {
+            background-color: #fafbf6;
+        }
+        body {
+            background: rgb(204,204,204);
+            font-family: "Alice-Regular";
+        }
+        page {
+          background: white;
+          display: block;
+          margin: 0 auto;
+          margin-bottom: 0.5cm;
+          box-shadow: 0 0 0.5cm rgba(0,0,0,0.5);
+        }
+        page[size="A4"] {  
+          width: 21cm;
+          height: 29.7cm; 
+        }
+    </style>
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" size="A4" content="width=device-width, initial-scale=1.0">
+        <title>Счет договора {{order.name}} </title>
+        <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+    </head>
+
+    <body>
+        <div class="flex items-center justify-center min-h-screen bg-gray-100">
+            <div class="w-3/5 bg-white shadow-lg">
+                <div class="flex justify-between p-4">
+                    <div>
+                        <img width='150px' class="w-20 mb-6 ml-6" src="http://127.0.0.1:8000/static/images/weller_logo.jpg" alt="weller_logo.jpg">
+                    </div>
+                </div>
+                <div class="w-full h-0.5 bg-gray-600"></div>
+                <div class="flex justify-between p-4 ml-6 mr-10">
+                    <div>
+                        <h6 class="font-bold">Beneficial owner : <span class="text-sm font-bold"> {{order.client}}</span></h6>
+                        <h6 class="font-bold">Beneficial owner's bank : <span class="text-sm font-bold"> {{order.client.bank}}</span></h6>
+                    </div>
+                    <div class="w-40">
+                        <address class="text-sm">
+                            <span class="font-bold">Bank account number : </span>
+                            {{order.organisation.bank_acc}}
+                        </address>
+                        <h6 class="font-bold">Bank code number : <span class="text-sm font-bold"> {{order.client.bik}}</span></h6>
+                    </div>
+                    <div class="w-40">
+                        <address class="text-sm">
+                            <span class="font-bold">Beneficial owner's code :</span>
+                            17
+                        </address>
+                        <h6 class="font-bold">Payment destination code : <span class="text-sm font-bold">710</span></h6>
+                    </div>
+                </div>
+                <div class="ml-10 mr-10 py-2">
+                    <li class="flex items-start justify-between">
+                        <h3 class="text-sm font-bold">Supplier : {{order.organisation}}
+                        </h3>
+                        <div class="text-right">
+                        </div>
+                    </li>
+                    <li class="flex items-start justify-between">
+                        <h3 class="text-sm font-bold">Buyer : {{order.client}}
+                        </h3>
+                        <div class="text-right">
+                        </div>
+                    </li>
+                    <li class="flex items-start justify-between">
+                        <h3 class="text-sm font-bold">Contract :
+                        </h3>
+                        <div class="text-right">
+                            <span class="block text-sm font-bold">{{order.name}}</span>
+                        </div>
+                    </li>
+                </div>
+                    
+                <div class="ml-10 mr-10 py-5">
+                    <table class="table-auto w-full text-left whitespace-no-wrap">
+                        <thead>
+                          <tr>
+                            <th class="px-4 py-3 title-font tracking-wider font-bold text-gray-900 text-xs bg-gray-100">#</th>
+                            <th class="px-4 py-3 title-font tracking-wider font-bold text-gray-900 text-xs bg-gray-100">Code</th>
+                            <th class="px-4 py-3 title-font tracking-wider font-bold text-gray-900 text-xs bg-gray-100">Product name</th>
+                            <th class="px-4 py-3 title-font tracking-wider font-bold text-gray-900 text-xs bg-gray-100">Quantity</th>
+                            <th class="px-4 py-3 title-font tracking-wider font-bold text-gray-900 text-xs bg-gray-100">Price</th>
+                            <th class="px-4 py-3 title-font tracking-wider font-bold text-gray-900 text-xs bg-gray-100">Summary</th>
+                            <th class="w-10 title-font tracking-wider font-bold text-gray-900 text-xs bg-gray-100"></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                            {% for ordered_item in order.items.all %}
+                          <tr>
+                            <td class="px-4 py-3">{{forloop.counter}}</td>
+                            <td class="px-4 py-3">{{ordered_item.item.article}}</td>
+                            <td class="px-4 py-3">{{ordered_item.item.brand}}{{ordered_item.item.model}}</td>
+                            <td class="px-4 py-3">{{ordered_item.quantity}}</td>
+                            <td class="px-4 py-3">{{ordered_item.item.sell_price}}</td>
+                            <td class="px-4 py-3 text-lg text-gray-900">{{ordered_item.get_total_item_price}}</td>
+                          </tr>
+                          {% endfor %}
+                        </tbody>
+                        <tr class="w-full">
+                            <td colspan="5" class="px-4 py-2 text-sm text-gray-900 font-bold">Total : {{order.get_total}}</td>
+                            <td class="px-4 py-2 text-sm text-gray-900 font-bold"> </td>
+                        </tr>
+                        <tr class="w-full">
+                            <td colspan="5" class="px-4 py-2 text-sm text-gray-900 font-bold">with VALUE ADDED TAX : {{order.get_total}}</td>
+                            <td class="px-4 py-2 text-sm text-gray-900 font-bold"> </td>
+                        </tr>
+                        <div>
+                            <tr class="w-full">
+                                <td colspan="5" class="px-4 py-2 text-sm text-gray-900 font-bold">Products total : {{order.get_total_item_count}}</td>
+                            </tr> 
+                            <tr class="w-full">
+                                <td colspan="5" class="px-4 py-2 text-sm text-gray-900 font-bold">Total due and payable : {{order.get_total}}</td>
+                            </tr>
+                            
+                            <tr class="w-full">
+                                <td colspan="5" class="px-4 py-2 text-sm text-gray-900 font-bold">Executive : {{order.manager}}</td>
+                            </tr>
+                        </div>
+                    </table>
+                </div>
+                
+                <div class="flex justify-between p-4">
+                </div>
+                <div class="w-full h-0.5 bg-gray-600">
+                    <div class="flex items-center gap-4">
+                    </div>
+                </div>
+
+                <div class="p-4">
+                </div>
+            </div>
+        </div>
+        <div class="flex items-center justify-center min-h-screen bg-gray-100">
+        </div>
+    </body>
+</html>

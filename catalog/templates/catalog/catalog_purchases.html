@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+    {% block content%}
+    
+    <section class="text-gray-600 body-font overflow-hidden">
+        <div class="container px-5 py-24 mx-auto">
+          <div class="lg:w-4/5 mx-auto flex flex-wrap">
+            <div class="lg:w-1/2 w-full lg:pr-10 lg:py-6 mb-6 lg:mb-0">
+          <a href="{% url 'catalog:catalog-list' %}" class="tracking-widest text-blue-500   hover:text-blue-400 text-xs font-medium title-font">
+            Назад в каталог
+          </a>
+          <hr />
+          <a href="{% url 'catalog:catalog-update' product.pk %}" class="tracking-widest text-blue-500   hover:text-blue-400 text-xs font-medium title-font">
+            Редактировать
+          </a>
+              <hr/>
+              
+              <h1 class="text-gray-900 text-3xl title-font font-medium mb-4">
+                {{ product.brand}} {{ product.model }}
+              </h1>
+              <div class="flex mb-4">
+                <a href="{% url 'catalog:catalog-detail' product.pk %}" 
+                class="flex-grow border-b-2 border-gray-300 py-2 text-lg px-1">
+                  Описание
+                </a>
+                <a href="{% url 'catalog:catalog-purchases' product.pk %}" 
+                class="flex-grow text-blue-500   border-b-2 border-blue-500   py-2 text-lg px-1">
+                  Закупки
+                </a>
+                <a href="{% url 'catalog:catalog-orders' product.pk %}" 
+                class="flex-grow border-b-2 border-gray-300 py-2 text-lg px-1">
+                  Заказы
+                </a>
+              </div>
+              <p class="leading-relaxed mb-4 text-gray-900">
+                {{product.description}}
+              </p>
+              {% for purchaseditem in product.purchases.all %}
+                {% for purchase in purchaseditem.purchase_items.all %}
+              <div class="bg-blue-100 text-gray-900 flex border-t border-gray-200 py-2">
+                <span class="text-lg">
+                  Название закупки:
+                </span>
+                <span class="ml-auto text-lg">
+                  Заказано товаров:
+                </span>
+              </div>
+              <div class="flex border-t border-gray-200 py-2 hover:bg-gray-100" >
+                <span class="text-gray-900 ">
+                  <a href="{% url 'purchases:purchase-detail' purchase.pk %}" class="hover:bg-blue-200">
+                    {{purchase.name}}
+                  </a>
+                </span>
+                <span class="ml-auto text-gray-900 ">
+                  <a>
+                    {{purchaseditem.quantity}}
+                  </a>
+                </span>
+              </div>
+              
+              <div class="text-gray-900 flex border-t border-b mb-6 border-gray-200 py-2">
+                <span class="text-lg">
+                  Всего заказов:
+                </span>
+                <span class="ml-auto text-lg">
+                  {{purchaseditem.purchase_items.all.count}}
+                </span>
+              </div>
+                {% endfor %}
+                {% empty %}
+                <a class="text-center text-2xl">А тут пусто</a>
+              {% endfor %}
+            </div>
+            <img alt="{{product.image}}" class="lg:w-1/2 w-full lg:h-auto h-64 object-cover object-center rounded" src="/{{product.image}}">
+          </div>
+        </div>
+      </section>
+      <hr/>
+    {% if request.user.is_organiser %}
+    <a href="{% url 'catalog:catalog-delete' product.pk %}" class="tracking-widest text-blue-500   hover:text-blue-400 text-xs font-medium title-font">
+      Удалить
+    </a>
+    {% endif %}
+    {% endblock content%}

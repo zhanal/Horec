@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+{% load tailwind_filters %}
+
+<section class="text-gray-600 body-font overflow-hidden">
+    <div class="container px-5 py-24 mx-auto">
+      <div class="lg:w-4/5 mx-auto flex flex-wrap">
+        <div class="lg:w-1/2 w-full lg:pr-10 lg:py-6 mb-6 lg:mb-0">
+            <a href="{% url 'purchases:purchase-detail' purchase.pk %}">
+                Назад
+            </a>
+            <hr />
+            <h1 class="text-gray-900 text-3xl title-font font-medium mb-4">
+                Вы уверены что хотите удалить эту закупку? 
+            </h1>
+
+            <form method="post">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <button type="submit">
+                Удалить
+                </button>
+            </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+{% endblock content %}

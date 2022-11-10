@@ -1,0 +1,148 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+  button {
+    color:#1F98AD
+  }
+  .thead1 {
+    color: #34495E;
+  }
+  table {
+  width: 100%;
+}
+</style>
+
+<section class="py-6 sm:py-12 dark:bg-gray-800 dark:text-gray-100">
+  <div class="lg:w-2/3 w-full mx-auto overflow-auto">
+        <h1 class="sm:text-4xl text-3xl font-medium title-font mb-2 text-gray-900 text-left">
+          Заказы
+        </h1>
+        <div class="py-4">
+          <a href="{% url 'orders:order-create' %}" class="px-4 py-2 text-xs bg-blue-100 text-blue-500   rounded uppercase font-semibold hover:bg-white">
+            Создать
+          </a>
+        </div>
+        <div class="flex flex-wrap sm:flex-row flex-col py-5">
+          <form method="get">
+            {% csrf_token %}
+            <a class="text-gray-700 text-lg">Организация</a>
+            {{ filter.form.organisation }}
+            <a class="text-gray-700 text-lg">Проект</a>
+            {{ filter.form.project }}
+            <a class="text-gray-700 text-lg">Клиент</a>
+            {{ filter.form.client }}
+            <a class="text-gray-700 text-lg">Статус</a>
+            {{ filter.form.status }}
+            <a class="text-gray-700 text-lg">Менеджер</a>
+            {{ filter.form.manager }}
+            <button type="submit" class="button button2 text-white bg-blue-500   border-0 py-2 px-6 focus:outline-none hover:bg-gray-500 rounded ml-8">
+              Поиск
+            </button>
+          </form>    
+        </div>
+        
+      <div class="py-4">
+        <table class="table-auto w-full text-left whitespace-no-wrap">
+          <thead>
+            <tr>
+              <th class="button button2 px-4 py-3 title-font tracking-wider font-medium text-white text-sm rounded-tl rounded-bl">
+                №
+              </th>
+              <th class="button button2 px-4 py-3 title-font tracking-wider font-medium text-white text-sm bg-gray-100">
+                Дата
+              </th>
+              <th class="button button2 px-4 py-3 title-font tracking-wider font-medium text-white text-sm bg-gray-100">
+                Название сделки
+              </th>
+              <th class="button button2 px-4 py-3 title-font tracking-wider font-medium text-white text-sm bg-gray-100">
+                Дедлайн
+              </th>
+              <th class="button button2 px-4 py-3 title-font tracking-wider font-medium text-white text-sm bg-gray-100">
+                Клиент
+              </th>
+              <th class="button button2 px-4 py-3 title-font tracking-wider font-medium text-white text-sm bg-gray-100">
+                Товары
+              </th>
+              <th class="button button2 px-4 py-3 title-font tracking-wider font-medium text-white text-sm bg-gray-100">
+                Статус
+              </th>
+              <th class="button button2 px-4 py-3 title-font tracking-wider font-medium text-white text-sm bg-gray-100">
+                Менеджер
+              </th>
+              <th class="w-10 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100 rounded-tr rounded-br"></th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for order in orders %}
+            <tr>
+              <td class="px-4 py-3 title-font tracking-wider text-gray-900 bg-gray-100">{{forloop.counter}}</td>
+              <td class="px-4 py-3 title-font tracking-wider text-gray-900 bg-gray-100">{{order.date}}</td>
+              <td class="px-4 py-3 title-font tracking-wider text-gray-900 bg-gray-100">
+                <a class="text-blue-700" href="{% url 'orders:order-detail' order.pk %}">
+                {{order.name}}
+              </a>
+            </td>
+              <td class="px-4 py-3 title-font tracking-wider text-gray-900 bg-gray-100">{{order.deadline}}</td>
+              <td class="px-4 py-3 title-font tracking-wider text-gray-900 bg-gray-100">{{order.client}}</td>
+              <td class="px-4 py-3 title-font tracking-wider text-gray-900 bg-gray-100">{{order.items.all.count}}</td>
+              <td class="px-4 py-3 title-font tracking-wider text-gray-900 bg-gray-100">
+                {% if order.status == "Утвержден" %}
+                <span class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded text-blue-600 bg-blue-200 uppercase last:mr-0 mr-1">
+                  {{order.status}}
+                </span>
+                {% elif order.status == "Желтые ботинки" %}
+                <span class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded text-yellow-600 bg-yellow-200 uppercase last:mr-0 mr-1">
+                  {{order.status}}
+                </span>
+                {% else %}
+                <span class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded text-gray-600 bg-gray-200 uppercase last:mr-0 mr-1">
+                  {{order.status}}
+                </span>
+                {% endif %}
+              </td>
+              <td class="px-4 py-3 title-font tracking-wider text-gray-900 bg-gray-100">{{order.manager}}</td>
+            </tr>
+            {% for ordered_item in order.items.all %}
+            <tr>
+              <td></td>
+              <td>{{order.date}}</td>
+              <td>
+                <a class="text-blue-700" href="{% url 'orders:order-detail' order.pk %}">
+                  {{order.name}}
+                </a>
+              </td>
+              <td>{{order.deadline}}</td>
+              <td>{{order.client}}</td>
+              <td class="px-4 py-3">
+                <a class="text-blue-700" href="{% url 'catalog:catalog-detail' ordered_item.item.pk %}">
+                  {{ordered_item.item.brand}} {{ordered_item.item.model}} {{ordered_item.article}}            
+                </a>
+              </td>
+              <td>
+                {% if order.status == "Утвержден" %}
+                <span class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded text-blue-600 bg-blue-200 uppercase last:mr-0 mr-1">
+                  {{order.status}}
+                </span>
+                {% elif order.status == "Желтые ботинки" %}
+                <span class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded text-yellow-600 bg-yellow-200 uppercase last:mr-0 mr-1">
+                  {{order.status}}
+                </span>
+                {% else %}
+                <span class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded text-gray-600 bg-gray-200 uppercase last:mr-0 mr-1">
+                  {{order.status}}
+                </span>
+                {% endif %}
+              </td>
+              <td>{{order.manager}}</td>
+            </tr>
+            {% endfor %}
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      
+    </div>
+
+  </section>
+{% endblock content %}

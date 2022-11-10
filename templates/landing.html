@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Вход в Horec CRM</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <title>HOREC CRM</title>
+    <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+      .section2 {background-image: url(/static/images/bg.png);}
+      .button1 {background-color: #34495E;}
+      .flex {
+        display: flex;
+        align-items: center;
+      }
+    </style>
+</head>
+<body>
+  <section class="text-gray-900 body-font">
+    <div class="container mx-auto flex px-5 py-24 items-center justify-center flex-col">
+      <div class="container mx-auto flex flex-col items-center justify-center p-4 space-y-8 md:p-10 md:px-24 xl:px-48">
+        <h1 class="text-5xl font-bold leading-none text-center">Добро пожаловать, {{user.username}}</h1>
+        <p class="pt-2 pb-8 text-xl font-medium text-center">
+          Тут регулярно будут новости о обновленных функциях сайта. А пока, чтобы приступить к работе, нажмите 
+          <a href="{% url 'catalog:catalog-list' %}" class="text-bold text-red-500">сюда</a>
+        </p>
+      </div>
+      <img class="lg:w-2/6 md:w-3/6 w-5/6 mb-10 object-cover object-center rounded" alt="working_skeleton.gif" src="/static/images/working_skeleton.gif">
+      <div class="text-center lg:w-2/3 w-full">
+        <h1 class="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900">Troubles? <a href="https://e.mail.ru/cgi-bin/sentmsg?To=supergirl@horec.kz&amp;from=otvet&afterReload=1" class="text-blue-500">supergirl@horec.kz</a></h1>
+      </div>
+      <div class="p-2 w-full pt-8 mt-8  text-right text-lg">
+        {% if request.user.is_organiser or request.user.is_manager %}
+        <hr>
+        <a href="{% url 'signup' %}" class="tracking-widest text-blue-500  hover:text-blue-400 font-medium title-font">
+          Зарегистрировать пользователя можно тут
+        </a>
+        {% endif %}
+      </div>
+    </div>
+  </section>
+</body>
+</html>

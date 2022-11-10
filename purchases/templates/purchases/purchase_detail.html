@@ -1,0 +1,306 @@
+{% extends "base.html" %}
+{% block content %}
+{% load humanize %}
+{% load tailwind_filters %}
+<body class="relative antialiased bg-gray-100">
+
+    <!-- Start Main -->
+    <main class="container mx-w-6xl mx-auto py-10">
+      <a href="{% url 'purchases:purchase-list' %}" class="text-sm text-gray-700 hover:text-blue-400">Назад</a>
+      <h1 class="sm:text-4xl text-3xl font-medium title-font mb-2 text-gray-900 text-left">
+        Детали закупки
+      </h1>
+        <div class="flex flex-col space-y-8">
+            
+            <!-- Start Second Row -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 px-4 xl:p-0 gap-4 xl:gap-6">
+                
+                <div class="bg-white p-6 rounded-xl border border-gray-50">
+                    <div class="flex justify-between items-start">
+                        <div class="flex flex-col">
+                            <p class="text-sm text-gray-900">Оплачено:</p>
+                            <p class="text-green-500 text-2xl font-bold">{{purchase.paid}}</p>
+                        </div>
+                        <div class="p-2 md:p-1 xl:p-2 text-green-500">
+                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-12 h-12 ">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 10.5L12 3m0 0l7.5 7.5M12 3v18" />
+                          </svg>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white p-6 rounded-xl border border-gray-50">
+                  <div class="flex justify-between items-start">
+                      <div class="flex flex-col">
+                          <p class="text-sm text-gray-900 ">Остаток к оплате:</p>
+                          <p class="text-red-500 text-2xl font-bold">{{purchase.get_debt}}</p>
+                      </div>
+                      <div class="p-2 md:p-1 xl:p-2 text-red-500">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-12 h-12">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m0 0l6.75-6.75M12 19.5l-6.75-6.75" />
+                        </svg>
+                      </div>
+                  </div>
+              </div>  
+              <div class="bg-white p-6 rounded-xl border border-gray-50">
+                <div class="flex justify-between items-start">
+                    <div class="flex flex-col">
+                        <p class="text-sm text-gray-900 ">Поставлено нам:</p>
+                        <p class="text-blue-600 text-2xl font-bold">{{purchase.received}} единиц</p>
+                    </div>
+                    <div class="p-2 md:p-1 xl:p-2 text-blue-600">
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-12 h-12">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M11.35 3.836c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m8.9-4.414c.376.023.75.05 1.124.08 1.131.094 1.976 1.057 1.976 2.192V16.5A2.25 2.25 0 0118 18.75h-2.25m-7.5-10.5H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V18.75m-7.5-10.5h6.375c.621 0 1.125.504 1.125 1.125v9.375m-8.25-3l1.5 1.5 3-3.75" />
+                      </svg>
+                    </div>
+                </div>
+              </div>
+              <div class="bg-white p-6 rounded-xl border border-gray-50">
+                  <div class="flex justify-between items-start">
+                      <div class="flex flex-col">
+                        <p class="text-sm text-gray-900 ">Остаток к поставке:</p>
+                          <p class="text-blue-600 text-2xl font-bold">{{purchase.have_to_ship}} единиц</p>
+                      </div>
+                      <div class="p-2 md:p-1 xl:p-2 text-blue-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-12 h-12">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9" />
+                        </svg>
+                      </div>
+                  </div>
+              </div>
+            </div>
+            <!-- End Second Row -->
+
+            <div class="flex justify-between items-center">
+              <h2 class="text-2xl text-gray-800 font-medium ">Имя закупки: {{purchase.name}}</h2>
+
+              <a href="{% url 'purchases:purchase-update' purchase.pk %}"
+                  class="px-4 py-2 text-xs bg-white text-blue-500   rounded uppercase font-semibold hover:bg-white">
+                  Редактировать
+              </a>
+            </div>
+
+            <div class="col-span-3 bg-white p-6 rounded-xl border border-gray-50 flex flex-col space-y-6">
+              <div class="flex justify-between items-center">
+                  <h2 class="text-lg text-gray-800 font-medium ">Заказанные товары</h2>
+                  
+                  <a href="{% url 'purchases:add-to-purchase' purchase.pk %}"
+                      class="px-4 py-2 text-xs bg-blue-100 text-blue-500   rounded uppercase  font-semibold hover:bg-blue-300">
+                      Добавить из корзины
+                  </a>
+              </div>
+              
+              <div class="flex flex-wrap -m-2">
+                <div class="p-2 lg:w-1/3 md:w-1/2 w-full">
+                  <div class="h-full flex items-center border-gray-200 border p-4 rounded-lg">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-10 h-10">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" />
+                    </svg>
+                    <div class="text-gray-900 flex-grow ml-8 title-font font-medium">
+                      <h2 class="text-gray-900 title-font ">{{purchase.organisation}}</h2>
+                      <p class="text-gray-500">Организация</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="p-2 lg:w-1/3 md:w-1/2 w-full">
+                  <div class="h-full flex items-center border-gray-200 border p-4 rounded-lg">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-10 h-10">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
+                    </svg>
+                    
+                    <div class="text-gray-900 flex-grow ml-8 title-font font-medium">
+                      <h2 class="text-gray-900 title-font font-medium">{{purchase.seller}}</h2>
+                      <p class="text-gray-500">Продавец</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="p-2 lg:w-1/3 md:w-1/2 w-full">
+                  <div class="h-full flex items-center border-gray-200 border p-4 rounded-lg">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-10 h-10">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M15.59 14.37a6 6 0 01-5.84 7.38v-4.8m5.84-2.58a14.98 14.98 0 006.16-12.12A14.98 14.98 0 009.631 8.41m5.96 5.96a14.926 14.926 0 01-5.841 2.58m-.119-8.54a6 6 0 00-7.381 5.84h4.8m2.581-5.84a14.927 14.927 0 00-2.58 5.84m2.699 2.7c-.103.021-.207.041-.311.06a15.09 15.09 0 01-2.448-2.448 14.9 14.9 0 01.06-.312m-2.24 2.39a4.493 4.493 0 00-1.757 4.306 4.493 4.493 0 004.306-1.758M16.5 9a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z" />
+                    </svg>
+                    <div class="text-gray-900 flex-grow ml-8 title-font font-medium">
+                      <h2 class="text-gray-900 title-font font-medium">{{purchase.project}}</h2>
+                      <p class="text-gray-500">Проект</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="p-2 lg:w-1/3 md:w-1/2 w-full">
+                  <div class="h-full flex items-center border-gray-200 border p-4 rounded-lg">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-10 h-10">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" />
+                    </svg>
+                    <div class="text-gray-900 flex-grow ml-8 title-font font-medium">
+                      <h2 class="text-gray-900 title-font font-medium">Статус: 
+                      {% if purchase.status == "оплачено" %}
+                      <span class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded text-sky-600 bg-sky-200 uppercase last:mr-0 mr-1">
+                        {{purchase.status}}
+                      </span>
+                      {% elif purchase.status == "предоплачено" %}
+                      <span class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded text-lime-600 bg-lime-200 uppercase last:mr-0 mr-1">
+                        {{purchase.status}}
+                      </span>
+                      {% elif purchase.status == "не оплачено" %}
+                      <span class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded text-rose-600 bg-rose-200 uppercase last:mr-0 mr-1">
+                        {{purchase.status}}
+                      </span>
+                      {% else %}
+                      <span class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded text-gray-600 bg-gray-200 uppercase last:mr-0 mr-1">
+                        {{purchase.status}}
+                      </span>
+                      {% endif %}
+                      </h2>
+                    </div>
+                  </div>
+                </div>
+                <div class="p-2 lg:w-1/3 md:w-1/2 w-full">
+                  <div class="h-full flex items-center border-gray-200 border p-4 rounded-lg">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-10 h-10">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                    
+                    <div class="text-gray-900 flex-grow ml-8 title-font font-medium">
+                      <h2 class="text-gray-900 title-font font-medium">Менеджер: {{purchase.manager}}</h2>
+                    </div>
+                  </div>
+                </div>
+                <div class="p-2 lg:w-1/3 md:w-1/2 w-full">
+                  <div class="h-full flex items-center border-gray-200 border p-4 rounded-lg">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-10 h-10">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <div class="text-gray-900 flex-grow ml-8 title-font font-medium">
+                      <h2 class="text-gray-900 title-font font-medium">Дедлайн: {{purchase.deadline|naturalday}}</h2>
+                    </div>
+                  </div>
+                </div>
+                <div class="p-2 lg:w-1/3 md:w-1/2 w-full">
+                  <div class="h-full flex items-center border-gray-200 border p-4 rounded-lg">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-10 h-10">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12" />
+                    </svg>
+                    <div class="text-gray-900 flex-grow ml-8 title-font font-medium">
+                      Дата забора: {{purchase.pickup_date|naturalday}}
+                    </div>
+                  </div>
+                </div>
+                <div class="p-2 lg:w-1/3 md:w-1/2 w-full">
+                  <div class="h-full flex items-center border-gray-200 border p-4 rounded-lg">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-10 h-10">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M18.375 12.739l-7.693 7.693a4.5 4.5 0 01-6.364-6.364l10.94-10.94A3 3 0 1119.5 7.372L8.552 18.32m.009-.01l-.01.01m5.699-9.941l-7.81 7.81a1.5 1.5 0 002.112 2.13" />
+                    </svg>
+                    <div class="text-gray-900 flex-grow ml-8 title-font font-medium">
+                      <h2 class="text-gray-900 title-font font-medium">Файлы: <a class="text-blue-500" href="{% url 'purchases:open-file' purchase.pk %}">{{purchase.files}}</a></h2>
+                    </div>
+                  </div>
+                </div>
+                <div class="p-2 lg:w-1/3 md:w-1/2 w-full">
+                  <div class="h-full flex items-center border-gray-200 border p-4 rounded-lg">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-10 h-10">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M8.625 9.75a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375m-13.5 3.01c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.184-4.183a1.14 1.14 0 01.778-.332 48.294 48.294 0 005.83-.498c1.585-.233 2.708-1.626 2.708-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z" />
+                    </svg>
+                    <div class="text-gray-900 flex-grow ml-8 title-font font-medium">
+                      <h2 class="text-gray-900 title-font font-medium">Комментарии: </h2>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <table class="table-auto w-full text-left whitespace-no-wrap">
+                <thead>
+                  <tr>
+                    <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-blue-100 rounded-tl rounded-bl">
+                      №
+                    </th>
+                    <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-blue-100">
+                      Фото
+                    </th>
+                    <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-blue-100">
+                      Наименование
+                    </th>
+                    <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-blue-100">
+                      Заказано
+                    </th>
+                    <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-blue-100">
+                      В наличии
+                    </th>
+                    <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-blue-100">
+                      Резерв
+                    </th>
+                    <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-blue-100">
+                      Ожидание
+                    </th>
+                    <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-blue-100">
+                      Цена
+                    </th>
+                    <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-blue-100">
+                      Транспорт
+                    </th>
+                    <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-blue-100">
+                      Налог
+                    </th>
+                    <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-blue-100">
+                      Наценка
+                    </th>
+                    <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-blue-100">
+                      Скидка
+                    </th>
+                    <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-blue-100">
+                      Сумма
+                    </th>
+                    <th class="w-10 title-font tracking-wider font-medium text-gray-900 text-sm bg-blue-100 rounded-tr rounded-br"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for purchase_item in purchase.items.all %}
+                  <tr>
+                    <td class="px-4 py-3">{{forloop.counter}}</td>
+                    <td class="px-4 py-3">
+                      <img alt="{{purchase_item.item.image}}" class="object-cover object-center w-10 h-10 block" src="/{{purchase_item.item.image}}">
+                    </td>
+                    <td class="px-4 py-3"><a class="text-blue-700" href="{% url 'catalog:catalog-detail' purchase_item.item.pk %}">
+                      {{purchase_item.item.brand}} {{purchase_item.item.model}}
+                    </a></td>
+                    <td class="px-4 py-3">
+                      <a href="{% url 'purchases:remove-single-item-from-purchase' purchase_item.pk %}">
+                        <i class="fas fa-minus mr-2"><b>-</b></i>
+                      </a>
+                      {{purchase_item.quantity}}
+                      <a href="{% url 'purchases:add-single-item-to-purchase' purchase_item.pk %}">
+                        <i class="fas fa-plus ml-2"><b>+</b></i>
+                      </a>
+                    </td>
+                    <td class="px-4 py-3">{{purchase_item.item.stock_qty}}</td>
+                    <td class="px-4 py-3">{{purchase_item.get_orders_count}}</td>
+                    <td class="px-4 py-3">purchases</td>
+                    <td class="px-4 py-3">{{purchase_item.item.sell_price}}</td>
+                    <td class="px-4 py-3">{{purchase_item.item.transport_coefficient}}</td>
+                    <td class="px-4 py-3">{{purchase_item.item.customs_tax}}</td>
+                    <td class="px-4 py-3">{{purchase_item.item.margin_coefficient}}</td>
+                    <td class="px-4 py-3">{{purchase_item.discount}} %</td>
+                    <td class="px-4 py-3 text-lg text-gray-900">{{purchase_item.get_total_item_price}} {{purchase_item.item.currency}}</td>
+                    {% empty %}
+                    <td class="text-center">Тут пусто</td>
+                    {% endfor %}
+                </tr>
+                  <tr class="w-full bg-blue-100">
+                    <td colspan="10" class="px-4 py-2 text-xl text-gray-900 font-medium bg-white">Итого:</td>
+                    <td class="px-4 py-2 text-xl text-gray-900 font-medium">
+                      {{purchase.convert_dollars}}
+                    </td>
+                    <td class="px-4 py-2 text-xl text-gray-900 font-medium">
+                      {{purchase.convert_euro}}
+                    </td>
+                    <td class="px-4 py-2 text-xl text-gray-900 font-medium bg-blue-100">
+                      {{purchase.get_total}}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+          </div>
+        </div>
+      </div>
+    </main>
+  </body>
+
+{% endblock content %}

@@ -1,0 +1,38 @@
+{% load static %}
+{% load humanize %}
+
+<!DOCTYPE html>
+
+<style>
+   .button {
+      background-color: #1F98AD;
+    }
+    .header1 {
+      background-color: #34495E;
+    }
+    .color1 {
+      color: #34495E;
+    }
+  </style>
+
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>base</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <title>HOREC CRM</title>
+    <link href="{% static 'css/styles.css' %}" rel="stylesheet">
+    <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="max-w-7xl mx-auto">
+        {% include "navbar.html" %}
+        {% block content %}
+        {% endblock content %}
+    </div>
+    <div class="sidebar">
+    </div>
+    {% include "scripts.html" %}
+</body>
+</html>

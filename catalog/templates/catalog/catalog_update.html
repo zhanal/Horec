@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+    {% block content %}
+    {% load tailwind_filters %}
+    
+    <section class="text-gray-600 body-font overflow-hidden">
+        <div class="container px-5 py-24 mx-auto">
+          <div class="lg:w-4/5 mx-auto flex flex-wrap">
+            <div class="lg:w-1/2 w-full lg:pr-10 lg:py-6 mb-6 lg:mb-0">
+          <a href="{% url 'catalog:catalog-detail' product.pk %}" class="tracking-widest text-blue-500   hover:text-blue-400 text-xs font-medium title-font">
+            Назад к товару
+          </a>
+          <hr />
+              <h1 class="text-gray-900 text-3xl title-font font-medium mb-4">
+                Обновление {{ product.brand}} {{ product.model }}
+              </h1>
+              <div class="flex mb-4">
+                <a class="flex-grow text-blue-500   border-b-2 border-blue-500   py-2 text-lg px-1">Описание</a>
+                <a class="flex-grow border-b-2 border-gray-300 py-2 text-lg px-1">Закупки</a>
+                <a class="flex-grow border-b-2 border-gray-300 py-2 text-lg px-1">Заказы</a>
+              </div>
+
+              <form method="post">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <button class="mt-3 button button1 flex ml-auto text-white bg-blue-500   border-0 py-2 px-6 focus:outline-none hover:bg-gray-500 rounded">
+                  Подтвердить
+                </button>
+              </form>
+              {% if request.user.is_organiser %}
+              <a href="{% url 'catalog:catalog-delete' product.pk %}" class="tracking-widest text-blue-500   hover:text-blue-400 text-xs font-medium title-font">
+                Удалить
+              </a>
+              {% endif %}
+            </div>
+            <img alt="{{product.image}}" class="lg:w-1/2 w-full lg:h-auto h-64 object-cover object-center rounded" src="/{{product.image}}">
+          </div>
+        </div>
+      </section>
+    
+{% endblock content %}
