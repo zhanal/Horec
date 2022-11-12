@@ -29,6 +29,7 @@
           <thead>
             <tr>
               <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100 rounded-tl rounded-bl">№</th>
+              <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">Фото</th>
               <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">Наименование</th>
               <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">Цена</th>
               <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">В наличии</th>
@@ -40,6 +41,9 @@
             {% for product in category.categories.all %}
             <tr>
               <td class="px-4 py-3 text-lg text-gray-900">{{forloop.counter}}</td>
+              <td class="px-4 py-3">
+                <img alt="{{product.image}}" class="object-cover object-center w-10 h-10 block" src="/{{product.image}}">
+              </td>
               <td class="px-4 py-3 text-lg text-gray-900">
                 <a href="{% url 'catalog:catalog-detail' product.pk %}" class="hover:text-blue-500">
                   {{product.brand}} {{product.model}} {{product.article}}</td>

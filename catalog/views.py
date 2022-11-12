@@ -14,6 +14,9 @@ from catalog.models import Order, Cart
 
 #CRUD+L = create, retrieve, update and delete + list
 
+def page_not_found(request, exception):
+    return render(request, '404.html', status=404)
+
 class TempPageView(generic.TemplateView):
     template_name = "temp.html"
 
@@ -186,11 +189,11 @@ def add_to_cart(request, pk):
     order_item = OrderItem.objects.get_or_create(
         item = item,
     )
-    cart_qs = Cart.objects.filter(  #maybe get()?
+    cart_qs = Cart.objects.get_or_create(  #maybe get()?
         manager= request.user.userprofile,
         ordered = False
     )
-    if cart_qs.exists():
+    if cart_qs[0]:
         cart = cart_qs[0]
         # check if the order item is in the order
         if cart.items.filter(item__pk = item.id).exists():
@@ -208,15 +211,14 @@ def add_to_cart(request, pk):
         messages.info(request, "Товар добавлен в корзину :)")
         return redirect("catalog:summary")
 
-
 @login_required
 def remove_from_cart(request, pk):
     item = get_object_or_404(Catalog, pk=pk)
-    cart_qs = Cart.objects.filter(
+    cart_qs = Cart.objects.get_or_create(
         manager= request.user.userprofile,
         ordered = False,
     )
-    if cart_qs.exists():
+    if cart_qs[0]:
         cart = cart_qs[0]
         if cart.items.filter(item__pk = item.id).exists():
             order_item = OrderItem.objects.filter(
@@ -226,23 +228,24 @@ def remove_from_cart(request, pk):
             cart.items.remove(order_item)
             order_item.delete()
             messages.info(request, "Товар убран из корзины")
-            return redirect("catalog:catalog-list")
+            return redirect("catalog:summary")
         else:
             messages.info(request, "Этого товара нет в корзине")
+            return redirect("catalog:summary")
     else:
         messages.info(request, "Корзина итак пуста лол ")
-
+        return redirect("catalog:catalog-list")
 
 # manager=self.request.user.userprofile
 
 @login_required
 def remove_single_item_from_cart(request, pk):
     item = get_object_or_404(Catalog, pk=pk)
-    cart_qs = Cart.objects.filter(
+    cart_qs = Cart.objects.get_or_create(
         manager= request.user.userprofile,
         ordered=False
     )
-    if cart_qs.exists():
+    if cart_qs[0]:
         cart = cart_qs[0]
         if cart.items.filter(item__pk = item.pk).exists():
             order_item = OrderItem.objects.filter(

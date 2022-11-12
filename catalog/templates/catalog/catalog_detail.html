@@ -6,15 +6,14 @@
         <div class="container px-5 py-24 mx-auto">
           <div class="lg:w-4/5 mx-auto flex flex-wrap">
             <div class="lg:w-1/2 w-full lg:pr-10 lg:py-6 mb-6 lg:mb-0">
-          <a href="{% url 'catalog:catalog-list' %}" class="tracking-widest text-blue-500   hover:text-blue-400 text-xs font-medium title-font">
-            Назад в каталог
-          </a>
-          <hr />
-          <a href="{% url 'catalog:catalog-update' product.pk %}" class="tracking-widest text-blue-500   hover:text-blue-400 text-xs font-medium title-font">
-            Редактировать
-          </a>
+              <a href="{% url 'catalog:catalog-list' %}" class="tracking-widest text-blue-500   hover:text-blue-400 text-xs font-medium title-font">
+                Назад в каталог
+              </a>
+              <hr />
+              <a href="{% url 'catalog:catalog-update' product.pk %}" class="tracking-widest text-blue-500   hover:text-blue-400 text-xs font-medium title-font">
+                Редактировать
+              </a>
               <hr/>
-              
               <h1 class="text-gray-900 text-3xl title-font font-medium mb-4">
                 {{ product.brand}} {{ product.model }}
               </h1>
@@ -39,7 +38,7 @@
                 <span class="text-gray-600">
                   Категория:
                 </span>
-                <span class="ml-auto text-gray-900">
+                <span class="ml-auto text-gray-900 hover:text-blue-400 ">
                   <a href="{% url 'catalog:category-detail' product.category.pk %}">
                     {{product.category}}
                   </a>
@@ -138,40 +137,31 @@
               <span class="title-font font-medium text-2xl text-gray-900">
                 {{product.sell_price}}
               </span>
-
+              <span class="title-font font-medium text-2xl text-gray-900 ml-5">
+                {{product.convert_euro}}
+              </span>
+              <span class="title-font font-medium text-2xl text-gray-900 ml-5">
+                {{product.convert_dollars}}
+              </span>
+              
               <a href="{% url 'catalog:add-to-cart' product.pk %}" 
                 class=" button1 flex ml-20 text-white bg-blue-500   border-0 py-2 px-6 focus:outline-none hover:bg-gray-600 rounded">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
                 </svg>
               </a>
-
               <a href="{% url 'catalog:remove-from-cart' product.pk %}"
                 class="flex-shrink-0 ml-auto text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded text-lg mt-10 sm:mt-0">
                   Убрать из корзины
               </a>
               </div>
               
-              <div class="flex">
-                <span class="title-font font-medium text-2xl text-gray-900">
-                  {{product.convert_euro}}
-                </span>
-              </div>
-              <div class="flex">
-                <span class="title-font font-medium text-2xl text-gray-900">
-                  {{product.convert_dollars}}
-                </span>
-              </div>
+              
           </div>
           <img alt="{{product.image}}" class="lg:w-1/2 w-full lg:h-auto h-64 object-cover object-center rounded" src="/{{product.image}}">
-          
-      </section>
-      <hr/>
-    {% if request.user.is_organiser %}
-    <a href="{% url 'catalog:catalog-delete' product.pk %}" class="tracking-widest text-blue-500   hover:text-blue-400 text-xs font-medium title-font">
-      Удалить
-    </a>
-    {% endif %}
+          {% if request.user.is_organiser %}
+          {% endif %}
+        </section>
     {% endblock content%}
   
 

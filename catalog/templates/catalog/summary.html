@@ -36,7 +36,7 @@
                       <a href="{% url 'catalog:catalog-detail' cart_item.item.pk %}" class="hover:text-blue-600">
                       {{cart_item.item.brand}} {{cart_item.item.model}}
                       </a>
-                  </td>
+                    </td>
                     <td class="px-4 py-3">
                       <a href="{% url 'catalog:remove-single-item-from-cart' cart_item.item.pk %}">
                           <i class="fas fa-minus mr-2"><b>-</b></i>
@@ -45,31 +45,26 @@
                       <a href="{% url 'catalog:add-to-cart' cart_item.item.pk %}">
                           <i class="fas fa-plus ml-2"><b>+</b></i>
                       </a>
-                  </td>
+                    </td>
                     <td class="px-4 py-3">{{cart_item.item.sell_price}} {{cart_item.item.currency}}</td>
                     <td class="px-4 py-3">{{cart_item.discount}}</td>
                     <td class="px-4 py-3">{{cart_item.get_total_item_price}}</td>
-                    <td>
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                    </a>
-                    </td>
                   </tr>
                   {% empty %}
                   <tr>
-                      <td colspan='3'>
-                        <div class="py-5 text-lg">
-                          <a class="text-gray-900" href="{% url 'catalog:catalog-list' %}">
-                            Тут пусто, выросла капуста!
-                            </a>
+                    <td colspan="6">
+                      <div class="py-8">
+                        <img class="w-64 h-64 block mx-auto mb-10 object-cover object-center rounded" alt="empty_gif" src="/static/images/caring_skeleton.webp">
+                        <div class="flex flex-col text-center w-full">
+                          <h1 class="text-xl font-medium title-font mb-4 text-gray-900">Тут пусто, выросла капуста :)</h1>
                         </div>
-                      </td>
+                      </div>
+                    </td>
                   </tr>
                 {% endfor %}
                 <tr class="w-full bg-gray-100">
                   <td colspan="6" class="px-4 py-2 text-xl text-gray-900 font-medium">Итого:</td>
-                  <td class="px-4 py-2 text-xl text-gray-900 font-medium">{{object.get_total}} тг</td>
+                  <td class="px-4 py-2 text-xl text-gray-900 font-medium">{{object.get_total}}</td>
                 </tr>
                 </tbody>
               </table>
