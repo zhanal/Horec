@@ -2,20 +2,28 @@
     {% block content%}
     {% load tailwind_filters %}
 
-    <section class="text-gray-600 body-font overflow-hidden">
-        <div class="container px-5 py-24 mx-auto">
-              <h1 class="sm:text-4xl text-3xl font-medium title-font mb-2 text-gray-900 text-center">
-                Корзина
-              </h1>
-              <p class="w-full leading-relaxed text-lg text-gray-700 text-center">
-                Если вы набрали в корзину все, что надо, выберите заказ и отправьте туда товары :)
-                Рекомендуем добавлять окончательные скидки и валюту в
-              <a href="{% url 'orders:order-list' %}" class="text-lg text-blue-500 font-semibold">заказе</a>
-              <a>или</a>
-              <a href="{% url 'purchases:purchase-list' %}" class="text-lg text-blue-500 font-semibold">закупке</a>
-            </p>
-          </div>
-            <div class="lg:w-2/3 w-full mx-auto overflow-auto">
+    <section class="sm:py-12 dark:bg-gray-800 dark:text-gray-100">
+      <div class="lg:w-2/3 w-full mx-auto py-16">
+          <div> 
+              <a class="button button1 inline-flex text-white bg-border-0 py-2 px-6 focus:outline-none hover:bg-gray-600 rounded text-lg" href="{% url 'catalog:catalog-list' %}">
+                Каталог
+              </a>
+            </div>
+
+            <div class="flex flex-wrap -m-4 mb-4">
+              <div class="flex flex-col text-center w-full mb-10">
+                <h2 class="text-xs text-blue-500 tracking-widest font-medium title-font mb-1">НАБЕРИТЕ СЮДА ТОВАРОВ ДЛЯ ЗАКАЗА/ЗАКУПКИ</h2>
+                <h1 class="sm:text-3xl text-base font-medium title-font mb-4 text-gray-900">Корзина</h1>
+                <div class="flex mx-auto border-2 border-gray-600 rounded overflow-hidden mt-6">
+                  <button class="py-1 px-4 focus:outline-none hover:bg-gray-600 hover:text-white"><a href="{% url 'orders:order-list' %}">
+                    В заказы
+                  </a></button>
+                  <button class="py-1 px-4 focus:outline-none hover:bg-gray-600 hover:text-white"><a href="{% url 'purchases:purchase-list' %}">
+                    В закупки
+                  </a></button>
+                </div>
+              </div>
+  
               <table class="table-auto w-full text-left whitespace-no-wrap">
                 <thead>
                   <tr>
@@ -54,7 +62,7 @@
                   <tr>
                     <td colspan="6">
                       <div class="py-8">
-                        <img class="w-64 h-64 block mx-auto mb-10 object-cover object-center rounded" alt="empty_gif" src="/static/images/caring_skeleton.webp">
+                        <img class="w-40 h-40 block mx-auto mb-10 object-cover object-center rounded" alt="empty_gif" src="https://64.media.tumblr.com/4657dd9a7e9511810751a44bfa250af1/tumblr_owug3x0o8k1qza1qzo1_500.gifv">
                         <div class="flex flex-col text-center w-full">
                           <h1 class="text-xl font-medium title-font mb-4 text-gray-900">Тут пусто, выросла капуста :)</h1>
                         </div>
@@ -68,12 +76,9 @@
                 </tr>
                 </tbody>
               </table>
-              <div class="flex flex-wrap justify-center py-10">
-                <button class="px-8 py-3 m-2 text-lg border rounded dark:text-gray-50 dark:border-gray-700"><a href="{% url 'orders:order-list' %}">В заказ</a></button>
-                <button class="px-8 py-3 m-2 text-lg border rounded dark:text-gray-50 dark:border-gray-700"><a href="{% url 'purchases:purchase-list' %}">В закупку</a></button>
-              </div>
             </div>
-            </div>
+
+        </div>
       </section>
     {% if request.user.is_organiser %}
     {% endif %}

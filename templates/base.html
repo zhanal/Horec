@@ -8,7 +8,10 @@
       background-color: #1F98AD;
     }
     .header1 {
+      height: 48px;
+      width:100%;
       background-color: #34495E;
+      position: fixed;
     }
     .color1 {
       color: #34495E;
@@ -19,13 +22,17 @@
 <head>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>base</title>
+    <title>HOREC CRM</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <title>HOREC CRM</title>
     <link href="{% static 'css/styles.css' %}" rel="stylesheet">
     <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
 </head>
 <body>
+  <header>
+    <div class="header1">
+    </div>
+  </header>
     <div class="max-w-7xl mx-auto">
         {% include "navbar.html" %}
         {% block content %}

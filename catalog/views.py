@@ -7,15 +7,142 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.views import generic
 from numpy import product 
 from requests import request
-from .models import Catalog, Category, OrderItem
-from .forms import CatalogModelForm, CustomUserCreationForm
+from .models import Catalog, Category, OrderItem, Order, Cart, Brand, Client, Organisation, Manager, User 
+from .forms import CatalogModelForm, CustomUserCreationForm, DetailedCatalogModelForm, BrandModelForm, ClientModelForm, OrganisationModelForm
 from .filters import CatalogFilter
-from catalog.models import Order, Cart
 
 #CRUD+L = create, retrieve, update and delete + list
 
 def page_not_found(request, exception):
     return render(request, '404.html', status=404)
+
+@login_required
+def DatabaseView(request):
+    context = {
+        "brands_count": Brand.objects.all().count(),
+        "clients_count": Client.objects.all().count(),
+        "organisations_count": Organisation.objects.all().count(),
+        "managers_count": User.objects.all().count(),
+    }
+    return render(request, "database/database.html", context)
+
+@login_required
+def BrandsListView(request):
+    brands = Brand.objects.all()
+    # filter = CatalogFilter(request.GET, queryset=catalog)
+    # catalog = filter.qs
+    context = {
+        "brands": brands,
+        # "filter": filter,
+    }
+    return render(request, "database/brands.html", context)
+
+class BrandCreateView(LoginRequiredMixin, generic.CreateView):
+    template_name = "database/brand_create.html"
+    form_class = BrandModelForm
+    
+    def get_success_url(self):
+        return reverse("brands")
+
+class BrandUpdateView(LoginRequiredMixin, generic.UpdateView):
+    template_name = "database/brand_update.html"
+    form_class = BrandModelForm
+    queryset = Brand.objects.all()
+    context_object_name = 'brand'
+
+    def get_success_url(self):
+        return reverse("brands") 
+
+class BrandDeleteView(LoginRequiredMixin, generic.DeleteView):
+    template_name = "database/brand_delete.html"
+    queryset = Brand.objects.all()
+    context_object_name = 'brand'
+    
+    def get_success_url(self):
+        return reverse("brands") 
+
+@login_required
+def ClientsListView(request):
+    clients = Client.objects.all()
+    # filter = CatalogFilter(request.GET, queryset=catalog)
+    # catalog = filter.qs
+    context = {
+        "clients": clients,
+        # "filter": filter,
+    }
+    return render(request, "database/clients.html", context)
+
+class ClientCreateView(LoginRequiredMixin, generic.CreateView):
+    template_name = "database/client_create.html"
+    form_class = ClientModelForm
+    
+    def get_success_url(self):
+        return reverse("clients")
+
+class ClientUpdateView(LoginRequiredMixin, generic.UpdateView):
+    template_name = "database/client_update.html"
+    form_class = ClientModelForm
+    queryset = Client.objects.all()
+    context_object_name = 'client'
+
+    def get_success_url(self):
+        return reverse("clients") 
+
+class ClientDeleteView(LoginRequiredMixin, generic.DeleteView):
+    template_name = "database/client_delete.html"
+    queryset = Client.objects.all()
+    context_object_name = 'client'
+    
+    def get_success_url(self):
+        return reverse("clients") 
+
+
+@login_required
+def OrganisationsListView(request):
+    organisations = Organisation.objects.all()
+    # filter = CatalogFilter(request.GET, queryset=catalog)
+    # catalog = filter.qs
+    context = {
+        "organisations": organisations,
+        # "filter": filter,
+    }
+    return render(request, "database/organisations.html", context)
+
+class OrganisationCreateView(LoginRequiredMixin, generic.CreateView):
+    template_name = "database/organisation_create.html"
+    form_class = OrganisationModelForm
+    
+    def get_success_url(self):
+        return reverse("organisations")
+
+class OrganisationUpdateView(LoginRequiredMixin, generic.UpdateView):
+    template_name = "database/organisation_update.html"
+    form_class = OrganisationModelForm
+    queryset = Organisation.objects.all()
+    context_object_name = 'organisation'
+
+    def get_success_url(self):
+        return reverse("clients") 
+
+class OrganisationDeleteView(LoginRequiredMixin, generic.DeleteView):
+    template_name = "database/organisation_delete.html"
+    queryset = Organisation.objects.all()
+    context_object_name = 'organisation'
+    
+    def get_success_url(self):
+        return reverse("organisations") 
+
+
+@login_required
+def ManagersListView(request):
+    managers = User.objects.all()
+    # filter = CatalogFilter(request.GET, queryset=catalog)
+    # catalog = filter.qs
+    context = {
+        "managers": managers,
+        # "filter": filter,
+    }
+    return render(request, "database/managers.html", context)
 
 class TempPageView(generic.TemplateView):
     template_name = "temp.html"
@@ -27,11 +154,6 @@ class SignupView(generic.CreateView):
     def get_success_url(self):
         return reverse("login")
 
-class LandingPageView(generic.TemplateView):
-    template_name = "landing.html" #Don't forget to pass this in HOREC's urls
-
-def landing_page(request):
-    return render(request, "landing.html")
 
 @login_required
 def CatalogListView(request):
@@ -43,6 +165,18 @@ def CatalogListView(request):
         "filter": filter,
     }
     return render(request, "catalog/catalog_list.html", context)
+
+
+@login_required
+def CatalogLineListView(request):
+    catalog = Catalog.objects.all()
+    filter = CatalogFilter(request.GET, queryset=catalog)
+    catalog = filter.qs
+    context = {
+        "catalog": catalog,
+        "filter": filter,
+    }
+    return render(request, "catalog/catalog_line_list.html", context)
 
 # class CatalogListView(LoginRequiredMixin, generic.ListView):
 #     template_name = "catalog/catalog_list.html"
@@ -66,7 +200,6 @@ def catalog_detail(request, pk):
 
     return render(request, "catalog/catalog_detail.html", context)
 
-
 class CatalogCreateView(LoginRequiredMixin, generic.CreateView):
     template_name = "catalog/catalog_create.html"
     form_class = CatalogModelForm
@@ -75,7 +208,6 @@ class CatalogCreateView(LoginRequiredMixin, generic.CreateView):
         return reverse("catalog:catalog-list")
 
 def catalog_create(request):
-    form_class = CatalogModelForm
     if request.method == 'POST':
         form = CatalogModelForm(request.POST)
         if form.is_valid():
@@ -91,6 +223,15 @@ def catalog_create(request):
 class CatalogUpdateView(LoginRequiredMixin, generic.UpdateView):
     template_name = "catalog/catalog_update.html"
     form_class = CatalogModelForm
+    queryset = Catalog.objects.all()
+    context_object_name = 'product'
+
+    def get_success_url(self):
+        return reverse("catalog:catalog-list") 
+
+class CatalogDetailUpdateView(LoginRequiredMixin, generic.UpdateView):
+    template_name = "catalog/catalog_detail_update.html"
+    form_class = DetailedCatalogModelForm
     queryset = Catalog.objects.all()
     context_object_name = 'product'
 
@@ -200,16 +341,16 @@ def add_to_cart(request, pk):
             order_item[0].quantity += 1
             order_item[0].save()
             messages.info(request, "Кол-во товара увеличилось")
-            return redirect("catalog:summary") #not sure about sintax of the page
+            return redirect("catalog:catalog-list") #not sure about sintax of the page
         else:
             cart.items.add(order_item[0])
             messages.info(request, "Товар добавлен в корзину")
-            return redirect("catalog:summary")
+            return redirect("catalog:catalog-list")
     else:
         cart = Cart.objects.create(name="Корзина")
         cart.items.add(order_item[0])
         messages.info(request, "Товар добавлен в корзину :)")
-        return redirect("catalog:summary")
+        return redirect("catalog:catalog-list")
 
 @login_required
 def remove_from_cart(request, pk):

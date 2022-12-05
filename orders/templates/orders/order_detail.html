@@ -2,6 +2,7 @@
 {% block content %}
 {% load humanize %}
 {% load tailwind_filters %}
+<div class="py-20 ml-32">
 <body class="relative antialiased bg-gray-100">
 
     <!-- Start Main -->
@@ -74,9 +75,9 @@
             <div class="flex flex-col">
               <h2 class="title-font font-semibold text-gray-800 tracking-wider text-sm mb-3">Распечатать в pdf</h2>
               <nav class="flex flex-wrap list-none -mb-1">
-                <li class="lg:w-1/3 mb-1 w-1/2">
+                <div class="lg:w-1/3 mb-1 w-1/2">
                   <a href="{% url 'orders:order-invoice-pdf' order.pk %}" class="text-gray-600 hover:text-gray-800">invoice (счет)</a>
-                </li>
+                </div>
               </nav>
             </div>
             <hr>
@@ -285,7 +286,16 @@
                     <td class="px-4 py-3">{{order_item.discount}} %</td>
                     <td class="px-4 py-3 text-lg text-gray-900">{{order_item.get_total_item_price}}</td>
                     {% empty %}
-                    <td class="text-center">Тут пусто</td>
+                    <tr>
+                      <td colspan="13">
+                        <div class="py-8">
+                          <img class="w-40 h-40 block mx-auto mb-10 object-cover object-center rounded" alt="empty_gif" src="https://64.media.tumblr.com/4657dd9a7e9511810751a44bfa250af1/tumblr_owug3x0o8k1qza1qzo1_500.gifv">
+                          <div class="flex flex-col text-center w-full">
+                            <a href="{% url 'catalog:catalog-list' %}" class="font-medium text-blue-500">Перейдите к товарам, </a><a>или</a><a href="{% url 'catalog:catalog-create' %}" class="font-medium text-blue-500"> создайте товар сразу</a>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
                     {% endfor %}
                 </tr>
                   <tr class="w-full bg-blue-100">
@@ -309,5 +319,5 @@
 
     </main>
   </body>
-
+</div>
 {% endblock content %}

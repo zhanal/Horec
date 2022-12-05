@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load tailwind_filters %}
+{% block content %}
+<section class="text-gray-600 body-font py-8">
+    <div class="container px-5 py-24 mx-auto">
+      <div class="flex flex-col text-center w-full mb-20">
+        <h1 class="sm:text-4xl text-3xl font-medium title-font mb-2 text-gray-900">Менеджеры</h1>
+        <p class="lg:w-2/3 mx-auto leading-relaxed text-base">Менеджерх - это сотрудник компании, который пользуется этим сайтом. Тут полный список менеджеров, вы можете добавлять и обновлять данные.</p>
+      </div>
+      <div class="lg:w-2/3 w-full mx-auto overflow-auto">
+        <table class="table-auto w-full text-left whitespace-no-wrap">
+          <thead>
+            <tr>
+              <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100 rounded-tl rounded-bl">№</th>
+              <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">Пользователь</th>
+              <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">Имя</th>
+              <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">Фамилия</th>
+              <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">Почта</th>
+              <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">Статус</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for manager in managers %}
+            <tr>
+              <td class="px-4 py-3">{{forloop.counter}}</td>
+              <td class="px-4 py-3">{{manager.username}}</td>
+              <td class="px-4 py-3">{{manager.first_name}}</td>
+              <td class="px-4 py-3">{{manager.last_name}}</td>
+              <td class="px-4 py-3">{{manager.email}}</td>
+            </tr>
+            {% empty %}
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+{% endblock content %}

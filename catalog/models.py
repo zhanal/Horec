@@ -78,7 +78,6 @@ class Subcategory(models.Model):
 
 class Category(models.Model):
     name = models.CharField(max_length=50)
-    image = models.ImageField(upload_to = "static/images", null= True, blank=True)
     
     def __str__(self):
         return self.name
@@ -87,10 +86,10 @@ class Category(models.Model):
 class Catalog(models.Model):
     id = models.AutoField(primary_key=True, editable=True)
 
-    name = models.CharField(max_length=150, null=True,blank=True)
+    name = models.CharField(max_length=150)
     brand = models.ForeignKey('Brand',on_delete=models.SET_NULL, null=True)
     model = models.CharField(max_length=25, null=True)
-    article = models.CharField(max_length=25)
+    article = models.CharField(max_length=25, null=True,blank=True)
     category = models.ForeignKey('Category', related_name="categories", on_delete=models.SET_NULL, null=True)
     subcategory = models.ForeignKey('Subcategory', related_name="subcategories", on_delete=models.SET_NULL, null=True, blank=True)
     code = models.CharField(max_length=6, null=True, blank=True)
@@ -98,17 +97,17 @@ class Catalog(models.Model):
     barcode = models.CharField(max_length=16, null=True, blank=True)
     zone = models.CharField(max_length=100, null=True, blank=True)
     description = models.CharField(max_length=1000, null=True, blank = True)
-    hs_code = models.IntegerField(null=True)
+    hs_code = models.IntegerField(null=True,blank=True)
     country = models.CharField(max_length=30, null=True, blank=True)
     customs_tax = models.FloatField(default=1, null=True)
     
-    transport_coefficient = models.FloatField(default=1.1, null=True)
-    margin_coefficient = models.FloatField(default=1.3, null=True)
-    stock_qty = models.IntegerField(default=0, null=True)
-    purchase_price = MoneyField(max_digits=14, decimal_places=2, default_currency='KZT') #EXW
-    sell_price = MoneyField(max_digits=14, decimal_places=2, default_currency='KZT')
-    min_sell_price = MoneyField(max_digits=14, decimal_places=2, default_currency='KZT', null=True)
-    max_sell_price = MoneyField(max_digits=14, decimal_places=2, default_currency='KZT', null=True)
+    transport_coefficient = models.FloatField(default=1.1, null=True,blank=True)
+    margin_coefficient = models.FloatField(default=1.3, null=True,blank=True)
+    stock_qty = models.IntegerField(default=0, null=True,blank=True)
+    purchase_price = MoneyField(max_digits=14, decimal_places=2, default_currency='KZT', null=True,blank=True) #EXW
+    sell_price = MoneyField(max_digits=14, decimal_places=2, default_currency='KZT', null=True,blank=True)
+    min_sell_price = MoneyField(max_digits=14, decimal_places=2, default_currency='KZT', null=True,blank=True)
+    max_sell_price = MoneyField(max_digits=14, decimal_places=2, default_currency='KZT', null=True,blank=True)
     image = models.ImageField(upload_to = "static/images", null= True, blank=True)
 
     def __str__(self):

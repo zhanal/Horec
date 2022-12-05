@@ -3,26 +3,30 @@
 {% load static %}
 {% load tailwind_filters %}
 
-<section class="text-gray-600 body-font">
-  <div class="container px-5 py-20 mx-auto flex flex-col">
-    <div>
-      <button class="px-4 py-2 text-sm bg-indigo-100 text-indigo-500 rounded uppercase font-semibold hover:bg-white">
-        <a href="{% url 'catalog:category-list' %}">
-          Категории
-        </a>
-      </button>
-      <button class="ml-10 px-4 py-2 text-sm bg-blue-100 text-blue-500   rounded uppercase font-semibold hover:bg-white">
-        <a href="{% url 'catalog:catalog-create' %}">
-          Создать
-        </a>
-      </button>  
+<section class="sm:py-12 dark:bg-gray-800 dark:text-gray-100">
+  <div class="lg:w-2/3 w-full mx-auto py-16">
+      <div class="ml-3"> 
+      <a class="button button1 inline-flex text-white bg-border-0 py-2 px-6 focus:outline-none hover:bg-gray-600 rounded text-lg" href="{% url 'catalog:category-list' %}">
+        Категории
+      </a>
+      <a class="ml-4 inline-flex text-gray-700 bg-gray-100 border-0 py-2 px-6 focus:outline-none hover:bg-blue-200 rounded text-lg" href="{% url 'catalog:catalog-create' %}">
+        Создать
+      </a>
     </div>
     <div class="flex flex-wrap -m-4">
       <div class="flex flex-col text-center w-full mb-10">
         <h2 class="text-xs text-blue-500 tracking-widest font-medium title-font mb-1">ВСЕ, ЧТО МОЖНО ПРОДАТЬ</h2>
         <h1 class="sm:text-3xl text-base font-medium title-font mb-4 text-gray-900">Каталог</h1>
+        <div class="flex mx-auto border-2 border-gray-600 rounded overflow-hidden mt-6">
+          <button class="py-1 px-4 bg-gray-600 text-white focus:outline-none"><a href="{% url 'catalog:catalog-list' %}">
+            Обычный
+          </a></button>
+          <button class="py-1 px-4 focus:outline-none hover:bg-gray-600 hover:text-white"><a href="{% url 'catalog:catalog-line-list' %}">
+            Построчный
+          </a></button>
+        </div>
       </div>
-      <div class="xl:w-1/5 md:w-1/2">
+      <div class="w-48 mr-8">
         <div class="object-center flex flex-wrap sm:flex-row flex-col ml-8 py-5">
           <form method="get">
             {% csrf_token %}
@@ -47,6 +51,7 @@
           <p class="leading-relaxed text-base">от {{product.min_sell_price}} до {{product.max_sell_price}}</p>
         </div>
       </div>
+      {% empty %}
       {% endfor %}   
     </div>
   </div>

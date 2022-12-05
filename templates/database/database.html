@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% load tailwind_filters %}
+{% block content %}
+<section class="sm:py-12 dark:bg-gray-800 dark:text-gray-100">
+    <div class="lg:w-2/3 w-full mx-auto overflow-auto py-20">
+      
+        <h1 class="sm:text-4xl text-3xl font-medium title-font mb-2 text-gray-900 text-left">
+            База данных (справочник)
+        </h1>
+
+        <div class="flex flex-wrap -mx-4 mt-auto mb-auto sm:w-2/3 content-start sm:pr-10 py-6">
+        <div class="p-4 sm:w-1/2 lg:w-1/4 w-1/2">
+          <h2 class="title-font font-medium text-3xl text-gray-900 hover:text-blue-400"><a href="{% url 'brands' %}">{{brands_count}}</a></h2>
+          <p class="leading-relaxed hover:text-blue-400"><a href="{% url 'brands' %}">Брендов</a></p>
+        </div>
+        <div class="p-4 sm:w-1/2 lg:w-1/4 w-1/2">
+          <h2 class="title-font font-medium text-3xl text-gray-900 hover:text-blue-400"><a href="{% url 'clients' %}">{{clients_count}}</a></h2>
+          <p class="leading-relaxed hover:text-blue-400"><a href="{% url 'clients' %}">Клиентов</a></p>
+        </div>
+        <div class="p-4 sm:w-1/2 lg:w-1/4 w-1/2">
+          <h2 class="title-font font-medium text-3xl text-gray-900 hover:text-blue-400"><a href="{% url 'organisations' %}">{{organisations_count}}</a></h2>
+          <p class="leading-relaxed hover:text-blue-400"><a href="{% url 'organisations' %}">Организаций</a></p>
+        </div>
+        <div class="p-4 sm:w-1/2 lg:w-1/4 w-1/2">
+          <h2 class="title-font font-medium text-3xl text-gray-900 hover:text-blue-400"><a href="{% url 'managers' %}">{{managers_count}}</a></h2>
+          <p class="leading-relaxed hover:text-blue-400"><a href="{% url 'managers' %}">Менеджеров</a></p>
+        </div>
+      </div>
+      <div class="lg:w-1/3 w-full rounded-lg overflow-hidden mt-6 sm:mt-0 py-4">
+        <img class="object-cover object-center w-full h-full" src="https://64.media.tumblr.com/d10033a3fe8195584464a183372c8e1a/tumblr_ogtvfdVyW01qza1qzo1_500.gifv" alt="stats">
+      </div>
+    </div>
+  </section>
+{% endblock content %}

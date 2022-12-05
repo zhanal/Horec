@@ -8,8 +8,7 @@ class CatalogFilter(django_filters.FilterSet):
             'brand',
             'model',
             'category',
-            'subcategory',
-            'sell_price',
+            'article',
         ]
 
 class OrderFilter(django_filters.FilterSet):

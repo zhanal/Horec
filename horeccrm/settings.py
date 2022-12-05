@@ -31,7 +31,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -68,8 +68,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 ROOT_URLCONF = 'horeccrm.urls'
 
@@ -135,6 +133,8 @@ TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
+USE_L10N = True
+
 USE_TZ = True
 
 
@@ -147,6 +147,7 @@ STATICFILES_DIRS = [
 ]
 
 STATIC_ROOT = "static_root"
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # STATIC_ROOT = os.path.join(BASE_DIR, "static_root")
 # Default primary key field type
@@ -155,12 +156,12 @@ STATIC_ROOT = "static_root"
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'catalog.User'
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 LOGIN_REDIRECT_URL = "/catalog"
 LOGIN_URL = "/login"
-LOGOUT_REDIRECT_URL = "/login"
+LOGOUT_REDIRECT_URL = "/"
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "tailwind"
-
 CRISPY_TEMPLATE_PACK = "tailwind"
 
 SESSION_COOKIE_AGE = 86400
@@ -169,27 +170,25 @@ CART_SESSION_ID = 'cart'
 CURRENCIES = ('KZT', 'EUR', 'USD', 'RUB')
 CURRENCY_CHOICES = [('USD', 'USD $'), ('EUR', 'EUR €'), ('KZT', 'KZT ₸'), ('RUB', 'RUB ₽')]
 
-# horeccrm.info
-
 if not DEBUG:
-    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-    SECURE_SSL_REDIRECT = True
-    SESSION_COOKIE_SECURE = True
-    CSRF_COOKIE_SECURE = True
-    SECURE_BROWSER_XSS_FILTER = True
-    SECURE_CONTENT_TYPE_NOSNIFF = True
-    SECURE_HSTS_SECONDS = 31536000  # 1 year
-    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-    SECURE_HSTS_PRELOAD = True
-    X_FRAME_OPTIONS = "DENY"
+    SECURE_PROXY_SSL_HEADER=('HTTP_X_FORWARDED_PROTO', 'https')
+    SECURE_SSL_REDIRECT=True
+    SESSION_COOKIE_SECURE=True
+    CSRF_COOKIE_SECURE=True
+    SECURE_BROWSER_XSS_FILTER=True
+    SECURE_CONTENT_TYPE_NOSNIFF=True
+    SECURE_HSTS_SECONDS=31536000  # 1 year
+    SECURE_HSTS_INCLUDE_SUBDOMAINS=True
+    SECURE_HSTS_PRELOAD=True
+    X_FRAME_OPTIONS="DENY"
 
-    ALLOWED_HOSTS = ["*"]
+    ALLOWED_HOSTS=["*"]
 
-    EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-    EMAIL_HOST = env("EMAIL_HOST")
-    EMAIL_HOST_USER = env("EMAIL_HOST_USER")
-    EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
-    EMAIL_USE_TLS = True
-    EMAIL_PORT = env("EMAIL_PORT")
-    DEFAULT_FROM_EMAIL = env("DEFAULT_FROM_EMAIL")
+    # EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+    # EMAIL_HOST = env("EMAIL_HOST")
+    # EMAIL_HOST_USER = env("EMAIL_HOST_USER")
+    # EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
+    # EMAIL_USE_TLS = True
+    # EMAIL_PORT = env("EMAIL_PORT")
+    # DEFAULT_FROM_EMAIL = env("DEFAULT_FROM_EMAIL")
 

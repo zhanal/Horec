@@ -2,6 +2,7 @@
 {% block content %}
 {% load humanize %}
 {% load tailwind_filters %}
+<div class="py-20 ml-32">
 <body class="relative antialiased bg-gray-100">
 
     <!-- Start Main -->
@@ -280,7 +281,16 @@
                     <td class="px-4 py-3">{{purchase_item.discount}} %</td>
                     <td class="px-4 py-3 text-lg text-gray-900">{{purchase_item.get_total_item_price}} {{purchase_item.item.currency}}</td>
                     {% empty %}
-                    <td class="text-center">Тут пусто</td>
+                    <tr>
+                      <td colspan="13">
+                        <div class="py-8">
+                          <img class="w-40 h-40 block mx-auto mb-10 object-cover object-center rounded" alt="empty_gif" src="https://64.media.tumblr.com/d21725eaa70af788b5a3d9d9380b6a4f/tumblr_ov4aepaRmC1qza1qzo1_500.gifv">
+                          <div class="flex flex-col text-center w-full">
+                            <h1 class="text-xl font-medium title-font mb-4 text-gray-900">Тут , выросла капуста :)</h1>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
                     {% endfor %}
                 </tr>
                   <tr class="w-full bg-blue-100">
@@ -302,5 +312,5 @@
       </div>
     </main>
   </body>
-
+</div>
 {% endblock content %}

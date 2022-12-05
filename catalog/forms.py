@@ -1,14 +1,23 @@
 from django import forms
-from .models import Catalog, Cart
+from .models import Catalog, Brand, Client, Organisation, Manager
 
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm, UsernameField
 
 User = get_user_model()
 
-
 class CatalogModelForm(forms.ModelForm):
-    
+    class Meta:
+        model = Catalog
+        fields = [
+            'name',
+            'brand',
+            'model',
+            'category',
+            'sell_price',
+        ]
+
+class DetailedCatalogModelForm(forms.ModelForm):
     class Meta:
         model = Catalog
         fields = [
@@ -61,8 +70,16 @@ class CatalogModelForm(forms.ModelForm):
         'image',
         ]
 
-
 class CatalogForm(forms.Form):
+    name = forms.CharField()
+    brand = forms.CharField() 
+    model = forms.CharField()
+    category = forms.CharField()
+    sell_price = forms.IntegerField()
+
+
+class DetailedCatalogForm(forms.Form):
+    name = forms.CharField()
     brand = forms.CharField() 
     model = forms.CharField()
     artilce = forms.CharField()
@@ -91,3 +108,72 @@ class CustomUserCreationForm(UserCreationForm):
         fields = ("username",)
         field_classes = {"username": UsernameField}
 
+class BrandModelForm(forms.ModelForm):
+    class Meta:
+        model = Brand
+        fields = [
+            'name',
+            'country',
+            'contact_person',
+            'phone',
+            'email',
+            'bank',
+            'bank_acc',
+            'bik',
+        ]
+
+class BrandForm(forms.Form):
+    name = forms.CharField()
+    country = forms.CharField()
+    contact_person = forms.CharField()
+    phone = forms.IntegerField()
+    email = forms.EmailField()
+    bank = forms.CharField()
+    bank_acc = forms.CharField()
+    bik = forms.CharField()
+
+class ClientModelForm(forms.ModelForm):
+    class Meta:
+        model = Client
+        fields = [
+            'name',
+            'contact_person',
+            'phone',
+            'email',
+            'bank',
+            'bank',
+            'bank_acc',
+            'bik',
+        ]
+
+class ClientForm(forms.Form):
+    name = forms.CharField()
+    contact_person = forms.CharField()
+    phone = forms.CharField()
+    email = forms.EmailField()
+    bank = forms.CharField()
+    bank = forms.CharField()
+    bank_acc = forms.CharField()
+    bik = forms.CharField()
+
+class OrganisationModelForm(forms.ModelForm):
+    class Meta:
+        model = Organisation
+        fields = [
+            'name',
+            'contact_person',
+            'phone',
+            'email',
+            'bank',
+            'bank_acc',
+            'bik',
+        ]
+
+class OrganisationForm(forms.Form):
+    name = forms.CharField()
+    contact_person = forms.CharField()
+    phone = forms.CharField()
+    email = forms.EmailField()
+    bank = forms.CharField()
+    bank_acc = forms.CharField()
+    bik = forms.CharField()
