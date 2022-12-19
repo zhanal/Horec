@@ -15,14 +15,14 @@ from pathlib import Path
 import environ
 
 env = environ.Env(
-    DEBUG = (bool, False)
+    DEBUG = (bool, True)
 )
 
 READ_DOT_ENV_FILE = env.bool('READ_DOT_ENV_FILE', default=False)
 if READ_DOT_ENV_FILE:
     environ.Env.read_env()
 
-DEBUG=False
+DEBUG=True
 SECRET_KEY=env('SECRET_KEY')
 print(DEBUG, SECRET_KEY)
 
