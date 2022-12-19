@@ -96,11 +96,11 @@ WSGI_APPLICATION = 'horeccrm.wsgi.application'
 DATABASES = {
     'default': {
        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        DB_NAME='defaultdb',
-        DB_USER='doadmin',
-        DB_PASSWORD='AVNS_GBU5HW8LGM7WZ7jh2dy',
-        DB_HOST='horec-db-do-user-12826018-0.b.db.ondigitalocean.com',
-        DB_PORT='25060',
+        'DB_NAME': 'defaultdb',
+        'DB_USER': 'doadmin',
+        'DB_PASSWORD': 'AVNS_GBU5HW8LGM7WZ7jh2dy',
+        'DB_HOST': 'horec-db-do-user-12826018-0.b.db.ondigitalocean.com',
+        'DB_PORT': '25060',
     }
 }
 
