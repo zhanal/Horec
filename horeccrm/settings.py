@@ -56,7 +56,6 @@ INSTALLED_APPS = [
     'catalog',
     'orders',
     'purchases',
-    'projects',
 ]
 
 MIDDLEWARE = [
@@ -97,11 +96,11 @@ WSGI_APPLICATION = 'horeccrm.wsgi.application'
 DATABASES = {
     'default': {
        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'defaultdb',
-        'USER': 'doadmin',
-        'PASSWORD': 'AVNS_GBU5HW8LGM7WZ7jh2dy',
-        'HOST': 'horec-db-do-user-12826018-0.b.db.ondigitalocean.com',
-        'PORT': '25060',
+        'NAME': env('DB_NAME'),
+        'USER': env('DB_USER'),
+        'PASSWORD': env('DB_PASSWORD'),
+        'HOST': env('DB_HOST'),
+        'PORT': env('DB_PORT'),
     }
 }
 
@@ -192,4 +191,3 @@ if not DEBUG:
     # EMAIL_USE_TLS = True
     # EMAIL_PORT = env("EMAIL_PORT")
     # DEFAULT_FROM_EMAIL = env("DEFAULT_FROM_EMAIL")
-
