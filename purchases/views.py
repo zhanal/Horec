@@ -187,6 +187,8 @@ def remove_single_item_from_purchase(request, pk):
             purchased_item.save()
         else:
             purchase.items.remove(purchased_item)
+            purchased_item.delete()
+
         messages.info(request, "-1")
         return redirect("purchases:purchase-detail", pk=purchase.pk)
     else:

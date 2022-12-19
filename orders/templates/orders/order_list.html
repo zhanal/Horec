@@ -10,12 +10,37 @@
   .thead1 {
     color: #34495E;
   }
-  table {
-  width: 100%;
-}
+  table, th, td{
+    width: 100%;
+    border: 1px solid #718096;
+  }
+  th, td {
+    border-color: #718096;
+  }
 </style>
 
-<section class="sm:py-12 dark:bg-gray-800 dark:text-gray-100">
+<div class="sidebar2 bg-gray-100">
+  <aside aria-label="Sidebar">
+    <nav class="justify-between flex flex-col">
+      <div class="py-8 ml-6 items-center">
+          <a class="text-xl font-bold">Фильтры</a>
+          <div class="w-48">
+              <div class="object-center flex flex-wrap sm:flex-row flex-col py-5">
+                <form method="get">
+                  {% csrf_token %}
+                  {{ filter.form|crispy }}
+                  <button type="submit" class="button button2 text-white bg-blue-500 border-0 py-2 px-6 focus:outline-none hover:bg-gray-500 rounded">
+                    Поиск
+                  </button>
+                </form>  
+              </div>
+            </div>
+      </div>
+    </nav>
+  </aside>
+</div>
+
+<section class="sm:py-12 dark:bg-gray-800 dark:text-gray-100 ml-8">
   <div class="lg:w-2/3 w-full mx-auto overflow-auto py-16">
         <h1 class="sm:text-4xl text-3xl font-medium title-font mb-2 text-gray-900 text-left">
           Заказы
@@ -25,126 +50,47 @@
             Создать
           </a>
         </div>
-        <div class="flex flex-wrap sm:flex-row flex-col py-5">
-          <form method="get">
-            {% csrf_token %}
-            <a class="text-gray-700 text-lg">Организация</a>
-            {{ filter.form.organisation }}
-            <a class="text-gray-700 text-lg">Проект</a>
-            {{ filter.form.project }}
-            <a class="text-gray-700 text-lg">Клиент</a>
-            {{ filter.form.client }}
-            <a class="text-gray-700 text-lg">Статус</a>
-            {{ filter.form.status }}
-            <a class="text-gray-700 text-lg">Менеджер</a>
-            {{ filter.form.manager }}
-            <button type="submit" class="button button2 text-white bg-blue-500   border-0 py-2 px-6 focus:outline-none hover:bg-gray-500 rounded ml-8">
-              Поиск
-            </button>
-          </form>    
-        </div>
         
-      <div class="py-4">
-        <table class="table-auto w-full text-left whitespace-no-wrap">
-          <thead>
-            <tr>
-              <th class="button button2 px-4 py-3 title-font tracking-wider font-medium text-white text-sm rounded-tl rounded-bl">
-                №
-              </th>
-              <th class="button button2 px-4 py-3 title-font tracking-wider font-medium text-white text-sm bg-gray-100">
-                Дата
-              </th>
-              <th class="button button2 px-4 py-3 title-font tracking-wider font-medium text-white text-sm bg-gray-100">
-                Название сделки
-              </th>
-              <th class="button button2 px-4 py-3 title-font tracking-wider font-medium text-white text-sm bg-gray-100">
-                Дедлайн
-              </th>
-              <th class="button button2 px-4 py-3 title-font tracking-wider font-medium text-white text-sm bg-gray-100">
-                Клиент
-              </th>
-              <th class="button button2 px-4 py-3 title-font tracking-wider font-medium text-white text-sm bg-gray-100">
-                Товары
-              </th>
-              <th class="button button2 px-4 py-3 title-font tracking-wider font-medium text-white text-sm bg-gray-100">
-                Статус
-              </th>
-              <th class="button button2 px-4 py-3 title-font tracking-wider font-medium text-white text-sm bg-gray-100">
-                Менеджер
-              </th>
-              <th class="w-10 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100 rounded-tr rounded-br"></th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for order in orders %}
-            <tr>
-              <td class="px-4 py-3 title-font tracking-wider text-gray-900 bg-gray-100">{{forloop.counter}}</td>
-              <td class="px-4 py-3 title-font tracking-wider text-gray-900 bg-gray-100">{{order.date}}</td>
-              <td class="px-4 py-3 title-font tracking-wider text-gray-900 bg-gray-100">
-                <a class="text-blue-700" href="{% url 'orders:order-detail' order.pk %}">
-                {{order.name}}
-              </a>
-            </td>
-              <td class="px-4 py-3 title-font tracking-wider text-gray-900 bg-gray-100">{{order.deadline}}</td>
-              <td class="px-4 py-3 title-font tracking-wider text-gray-900 bg-gray-100">{{order.client}}</td>
-              <td class="px-4 py-3 title-font tracking-wider text-gray-900 bg-gray-100">{{order.items.all.count}}</td>
-              <td class="px-4 py-3 title-font tracking-wider text-gray-900 bg-gray-100">
-                {% if order.status == "Утвержден" %}
-                <span class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded text-blue-600 bg-blue-200 uppercase last:mr-0 mr-1">
-                  {{order.status}}
-                </span>
-                {% elif order.status == "Желтые ботинки" %}
-                <span class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded text-yellow-600 bg-yellow-200 uppercase last:mr-0 mr-1">
-                  {{order.status}}
-                </span>
-                {% else %}
-                <span class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded text-gray-600 bg-gray-200 uppercase last:mr-0 mr-1">
-                  {{order.status}}
-                </span>
-                {% endif %}
-              </td>
-              <td class="px-4 py-3 title-font tracking-wider text-gray-900 bg-gray-100">{{order.manager}}</td>
-            </tr>
-            {% for ordered_item in order.items.all %}
-            <tr>
-              <td></td>
-              <td>{{order.date}}</td>
-              <td>
-                <a class="text-blue-700" href="{% url 'orders:order-detail' order.pk %}">
-                  {{order.name}}
-                </a>
-              </td>
-              <td>{{order.deadline}}</td>
-              <td>{{order.client}}</td>
-              <td class="px-4 py-3">
-                <a class="text-blue-700" href="{% url 'catalog:catalog-detail' ordered_item.item.pk %}">
-                  {{ordered_item.item.brand}} {{ordered_item.item.model}} {{ordered_item.article}}            
-                </a>
-              </td>
-              <td>
-                {% if order.status == "Утвержден" %}
-                <span class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded text-blue-600 bg-blue-200 uppercase last:mr-0 mr-1">
-                  {{order.status}}
-                </span>
-                {% elif order.status == "Желтые ботинки" %}
-                <span class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded text-yellow-600 bg-yellow-200 uppercase last:mr-0 mr-1">
-                  {{order.status}}
-                </span>
-                {% else %}
-                <span class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded text-gray-600 bg-gray-200 uppercase last:mr-0 mr-1">
-                  {{order.status}}
-                </span>
-                {% endif %}
-              </td>
-              <td>{{order.manager}}</td>
-            </tr>
-            {% endfor %}
-            {% endfor %}
-          </tbody>
-        </table>
-      </div>
-      
+        <div class="py-10">
+          <table class="table-auto w-full text-center whitespace-no-wrap">
+              <thead class="bg-gray-100">
+                  <tr>
+                      <th class="w-14">№</th>
+                      <th>Дата создания</th>
+                      <th>id проекта</th>
+                      <th>id</th>
+                      <th>Название</th>
+                      <th>Клиент</th>
+                      <th>Дедлайн</th>
+                      <th>Статус</th>
+                      <th>Сумма сделки</th>
+                      <th>Оплачено</th>
+                      <th>Долг</th>
+                      <th>Менеджер</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  {% for order in orders %}
+                  <tr class="hover:bg-gray-100">
+                      <td class="w-14 text-center">
+                        <a href="{% url 'orders:order-detail' order.id %}">{{forloop.counter}}</a>
+                      </td>
+                      <td><a href="{% url 'orders:order-detail' order.id %}">{{order.date}}</a></td>
+                      <td><a href="{% url 'orders:order-detail' order.id %}"> </a></td>
+                      <td><a href="{% url 'orders:order-detail' order.id %}">{{order.id}}</a></td>
+                      <td><a href="{% url 'orders:order-detail' order.id %}">{{order.name}}</a></td>
+                      <td><a href="{% url 'orders:order-detail' order.id %}">{{order.client}}</a></td>
+                      <td><a href="{% url 'orders:order-detail' order.id %}">{{order.deadline}}</a></td>
+                      <td><a href="{% url 'orders:order-detail' order.id %}">{{order.status}}</a></td>
+                      <td><a href="{% url 'orders:order-detail' order.id %}">{{order.get_total}}</a></td>
+                      <td><a href="{% url 'orders:order-detail' order.id %}">{{order.received}}</a></td>
+                      <td><a href="{% url 'orders:order-detail' order.id %}">{{order.get_debt}}</a></td>
+                      <td><a href="{% url 'orders:order-detail' order.id %}">{{order.manager}}</a></td>
+                  </tr>
+                  {% endfor %}
+              </tbody>
+          </table>
+        </div>
     </div>
-
   </section>
 {% endblock content %}

@@ -2,8 +2,37 @@
 {% block content %}
 {% load static %}
 {% load tailwind_filters %}
+<style>
+    table, th, td{
+    border: 1px solid #718096;
+    }
+    th, td {
+    border-color: #718096;
+    }
+</style>
 
-<section class="sm:py-12 dark:bg-gray-800 dark:text-gray-100">
+<div class="sidebar2 bg-gray-100">
+    <aside aria-label="Sidebar">
+      <nav class="justify-between flex flex-col">
+        <div class="py-8 ml-6 items-center">
+            <a class="text-xl font-bold">Фильтры</a>
+            <div class="w-48">
+                <div class="object-center flex flex-wrap sm:flex-row flex-col py-5">
+                  <form method="get">
+                    {% csrf_token %}
+                    {{ filter.form|crispy }}
+                    <button type="submit" class="button button2 text-white bg-blue-500 border-0 py-2 px-6 focus:outline-none hover:bg-gray-500 rounded">
+                      Поиск
+                    </button>
+                  </form>  
+                </div>
+              </div>
+        </div>
+      </nav>
+    </aside>
+</div>
+
+<section class="sm:py-12 dark:bg-gray-800 dark:text-gray-100 ml-8">
     <div class="lg:w-2/3 w-full mx-auto py-16">
         <div class="ml-3"> 
             <a class="button button1 inline-flex text-white bg-border-0 py-2 px-6 focus:outline-none hover:bg-gray-600 rounded text-lg" href="{% url 'catalog:category-list' %}">
@@ -26,70 +55,48 @@
                 </a></button>
               </div>
             </div>
-
-            <div class="flex flex-wrap sm:flex-row flex-col py-4 ml-4">
-              <form method="get">
-                {% csrf_token %}
-                <a class="text-gray-700 text-lg">Бренд</a>
-                {{ filter.form.brand }}
-                <a class="text-gray-700 text-lg">Модель</a>
-                {{ filter.form.model }}
-                <a class="text-gray-700 text-lg">Категория</a>
-                {{ filter.form.category }}
-                <a class="text-gray-700 text-lg">Артикль</a>
-                {{ filter.form.article }}
-                <button type="submit" class="button button2 text-white bg-blue-500   border-0 py-2 px-6 focus:outline-none hover:bg-gray-500 rounded ml-8">
-                  Поиск
-                </button>
-              </form>      
-            </div>
           </div>
 
           <div class="py-10">
-            <table class="table-auto w-full text-left whitespace-no-wrap">
-              <thead>
-                <tr>
-                  <th class="button button2 px-4 py-3 title-font tracking-wider font-medium text-white text-sm bg-gray-100 rounded-tl rounded-bl">Фото</th>
-                  <th class="button button2 px-4 py-3 title-font tracking-wider font-medium text-white text-sm bg-gray-100">Бренд</th>
-                  <th class="button button2 px-4 py-3 title-font tracking-wider font-medium text-white text-sm bg-gray-100">Модель</th>
-                  <th class="button button2 px-4 py-3 title-font tracking-wider font-medium text-white text-sm bg-gray-100">Артикль</th>
-                  <th class="button button2 px-4 py-3 title-font tracking-wider font-medium text-white text-sm bg-gray-100">Категория</th>
-                  <th class="button button2 px-4 py-3 title-font tracking-wider font-medium text-white text-sm bg-gray-100">Цена</th>
-                  <th class="button button2 w-10 title-font tracking-wider font-medium text-white text-sm bg-gray-100 rounded-tr rounded-br"></th>
-                </tr>
-              </thead>
-              <tbody>
-                {% for product in catalog %}
-                <tr>
-                  <a href="{% url 'catalog:catalog-detail' product.pk %}">
-                  <td class="px-4 py-3 hover:text-blue-600"><a href="{% url 'catalog:catalog-detail' product.pk %}">{{product.photo}}</a></td>
-                  <td class="px-4 py-3 hover:text-blue-600"><a href="{% url 'catalog:catalog-detail' product.pk %}">{{product.brand}}</a></td>
-                  <td class="px-4 py-3 hover:text-blue-600"><a href="{% url 'catalog:catalog-detail' product.pk %}">{{product.model}}</a></td>
-                  <td class="px-4 py-3 hover:text-blue-600"><a href="{% url 'catalog:catalog-detail' product.pk %}">{{product.article}}</a></td>
-                  <td class="px-4 py-3 hover:text-blue-600"><a href="{% url 'catalog:catalog-detail' product.pk %}">{{product.category}}</a></td>
-                  <td class="px-4 py-3 hover:text-blue-600"><a  href="{% url 'catalog:catalog-detail' product.pk %}">{{product.sell_price}}</a></td>
-                  <td class="w-10 text-center">
-                    <a class="hover:text-blue-600" href="{% url 'catalog:catalog-detail' product.pk %}">
-                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.3" stroke="currentColor" class="w-6 h-6">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
-                      </svg>
-                    </a>
-                  </td>
-                </a>
-              </tr>
-              {% empty %}
-              <tr>
-                <td colspan="6">
-                  <div class="py-8">
-                    <img class="w-40 h-40 block mx-auto mb-10 object-cover object-center rounded" alt="basket" src="https://64.media.tumblr.com/5759bbed8ca67ce61d33a293d0cce381/tumblr_ot7mfbx1Xe1qza1qzo1_500.gifv">
-                    <div class="flex flex-col text-center w-full">
-                      <h1 class="text-xl font-medium title-font mb-4 text-gray-700">Абсолютно пусто</h1>
-                    </div>
-                  </div>
-                </td>
-              </tr>
-                {% endfor %}
-              </tbody>
+            <table class="table-auto w-full text-center whitespace-no-wrap">
+                <thead class="bg-gray-100">
+                    <tr>
+                        <th></th>
+                        <th>Имя</th>
+                        <th>Бренд</th>
+                        <th>Модель</th>
+                        <th>Артикул</th>
+                        <th>Категория</th>
+                        <th>Валюта</th>
+                        <th>Цена закупа</th>
+                        <th>Цена продажи</th>
+                        <th>В наличии</th>
+                        <th>Резерв</th>
+                        <th>Ожидание</th>
+                        <th>Код</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for product in catalog %}
+                    <tr class="hover:bg-gray-100">
+                        <td class="w-10 text-center">
+                            <input type="checkbox" value="{{product.id}}">
+                        </td>
+                        <td><a href="{% url 'catalog:catalog-detail' product.id %}">{{product.name}}</a></td>
+                        <td><a href="{% url 'catalog:catalog-detail' product.id %}">{{product.brand}}</a></td>
+                        <td><a href="{% url 'catalog:catalog-detail' product.id %}">{{product.model}}</a></td>
+                        <td><a href="{% url 'catalog:catalog-detail' product.id %}">{{product.article}}</a></td>
+                        <td><a href="{% url 'catalog:catalog-detail' product.id %}">{{product.category}}</a></td>
+                        <td><a href="{% url 'catalog:catalog-detail' product.id %}">{{product.sell_price.currency}}</a></td>
+                        <td><a href="{% url 'catalog:catalog-detail' product.id %}">{{product.purchase_price}}</a></td>
+                        <td><a href="{% url 'catalog:catalog-detail' product.id %}">{{product.sell_price.amount}}</a></td>
+                        <td><a href="{% url 'catalog:catalog-detail' product.id %}">{{product.stock_qty}}</a></td>
+                        <td><a href="{% url 'catalog:catalog-detail' product.id %}">{{product.get_orders_count}}</a></td>
+                        <td><a href="{% url 'catalog:catalog-detail' product.id %}">{{product.get_purchases_count}}</a></td>
+                        <td><a href="{% url 'catalog:catalog-detail' product.id %}">{{product.code}}</a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
             </table>
           </div>
       </div>

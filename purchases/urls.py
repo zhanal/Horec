@@ -1,5 +1,6 @@
 from django.urls import path
 from .views import PurchaseListView, PurchaseCreateView, PurchaseDetailView, PurchaseUpdateView, PurchaseDeleteView, add_to_purchase, add_single_item_to_purchase, remove_single_item_from_purchase, open_file
+
 app_name = 'purchases'
 
 urlpatterns = [

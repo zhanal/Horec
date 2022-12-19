@@ -7,12 +7,18 @@
 
     <!-- Start Main -->
     <main class="container mx-w-6xl mx-auto py-10">
-      <a href="{% url 'orders:order-list' %}" class="text-sm text-gray-700 hover:text-blue-400">Назад</a>
-      <h1 class="sm:text-4xl text-3xl font-medium title-font mb-2 text-gray-900 text-left">
-        Детали заказа
-      </h1>
+      
         <div class="flex flex-col space-y-8">
-            
+          <a href="{% url 'orders:order-list' %}" class="text-lg text-gray-700 hover:text-blue-400">Назад</a>
+          <h1 class="sm:text-4xl text-3xl font-medium title-font text-gray-900 text-left">
+            Заказ {{order.name}}
+          </h1>
+          
+          <div class="text-left">
+            <a href="{% url 'orders:order-update' order.pk %}" class="text-right button button1 px-4 py-2 text-sm text-white  rounded uppercase font-semibold hover:bg-gray-500">
+              Обновить
+            </a>
+          </div>
             <!-- Start Second Row -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 px-4 xl:p-0 gap-4 xl:gap-6">
                 
@@ -69,6 +75,8 @@
                       </div>
                   </div>
               </div>
+              
+      
             </div>
             <!-- End Second Row -->
             <hr>
@@ -82,21 +90,18 @@
             </div>
             <hr>
             <div class="flex justify-between items-center">
-              <h2 class="text-2xl text-gray-800 font-medium ">Имя заказа: {{order.name}}</h2>
-              <a href="{% url 'orders:order-update' order.pk %}"
-                  class="px-4 py-2 text-xs bg-white text-blue-500   rounded uppercase font-semibold hover:bg-white">
-                  Редактировать
-              </a>
+              <h2 class="text-2xl text-gray-800 font-medium ">Детали заказа:</h2>
             </div>
 
             <div class="col-span-3 bg-white p-6 rounded-xl border border-gray-50 flex flex-col space-y-6">
               <div class="flex justify-between items-center">
-                  <h2 class="text-lg text-gray-800 font-medium ">Заказанные товары</h2>
-                  
-                  <a href="{% url 'orders:add-to-order' order.pk %}"
-                      class="px-4 py-2 text-xs bg-blue-100 text-blue-500   rounded uppercase  font-semibold hover:bg-blue-300">
-                      Добавить из корзины
-                  </a>
+                <a href="{% url 'catalog:catalog-create' %}" class="px-4 py-2 text-xs bg-blue-100 text-blue-500   rounded uppercase  font-semibold hover:bg-blue-300">
+                  СОЗДАТЬ ТОВАР
+                </a>
+                <a></a>
+                <a href="{% url 'orders:add-to-order' order.pk %}" class="px-4 py-2 text-xs bg-blue-100 text-blue-500   rounded uppercase  font-semibold hover:bg-blue-300">
+                  Добавить из корзины
+                </a>
               </div>
               
               <div class="flex flex-wrap -m-2">
@@ -313,10 +318,8 @@
                 </tbody>
               </table>
           </div>
-        
         </div>
       </div>
-
     </main>
   </body>
 </div>

@@ -367,12 +367,18 @@ class Purchase(models.Model):
         return self.get_total_item_count()-self.received
     
     def convert_euro(self):
+        if self.get_total() == 0:
+            return (convert_money(Money(0, 'KZT'), 'EUR'))
         return convert_money(self.get_total(), 'EUR')
     
     def convert_dollars(self):
+        if self.get_total() == 0:
+            return (convert_money(Money(0, 'KZT'), 'USD'))
         return convert_money(self.get_total(), 'USD')
 
     def convert_ruble(self):
+        if self.get_total() == 0:
+            return (convert_money(Money(0, 'KZT'), 'RUB'))
         return convert_money(self.get_total(), 'RUB')
 
 
@@ -409,7 +415,6 @@ class PurchasedItem(models.Model):
                 for p in purchase:
                     expected += i.quantity
         return expected
-
 
 def post_user_created_signal(sender, instance, created, **kwargs):
     print(instance, created)

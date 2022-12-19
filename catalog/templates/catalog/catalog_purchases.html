@@ -1,19 +1,17 @@
 {% extends "base.html" %}
     {% block content%}
-    
-    <section class="text-gray-600 body-font overflow-hidden">
+      <section class="text-gray-600 body-font overflow-hidden">
         <div class="container px-5 py-24 mx-auto">
           <div class="lg:w-4/5 mx-auto flex flex-wrap">
             <div class="lg:w-1/2 w-full lg:pr-10 lg:py-6 mb-6 lg:mb-0">
-          <a href="{% url 'catalog:catalog-list' %}" class="tracking-widest text-blue-500   hover:text-blue-400 text-xs font-medium title-font">
-            Назад в каталог
-          </a>
-          <hr />
-          <a href="{% url 'catalog:catalog-update' product.pk %}" class="tracking-widest text-blue-500   hover:text-blue-400 text-xs font-medium title-font">
-            Редактировать
-          </a>
+              <a href="{% url 'catalog:catalog-list' %}" class="tracking-widest text-blue-500   hover:text-blue-400 text-xs font-medium title-font">
+                Назад в каталог
+              </a>
+              <hr />
+              <a href="{% url 'catalog:catalog-detail-update' product.pk %}" class="tracking-widest text-blue-500   hover:text-blue-400 text-xs font-medium title-font">
+                Редактировать
+              </a>
               <hr/>
-              
               <h1 class="text-gray-900 text-3xl title-font font-medium mb-4">
                 {{ product.brand}} {{ product.model }}
               </h1>
@@ -34,9 +32,8 @@
               <p class="leading-relaxed mb-4 text-gray-900">
                 {{product.description}}
               </p>
-              {% for purchaseditem in product.purchases.all %}
-                {% for purchase in purchaseditem.purchase_items.all %}
-              <div class="button button1 font-medium text-white flex border-t rounded border-gray-200 py-2">
+              
+              <div class="font-medium text-gray-900 flex border-t rounded border-gray-200 py-2">
                 <span class="text-lg">
                   Название закупки:
                 </span>
@@ -44,6 +41,9 @@
                   Заказано товаров:
                 </span>
               </div>
+
+              {% for purchaseditem in product.purchases.all %}
+              {% for purchase in purchaseditem.purchase_items.all %}
               <div class="flex border-t border-gray-200 py-2 hover:bg-gray-100" >
                 <span class="text-gray-900 ">
                   <a href="{% url 'purchases:purchase-detail' purchase.pk %}" class="hover:bg-blue-200">
@@ -56,25 +56,23 @@
                   </a>
                 </span>
               </div>
-              
-              <div class="text-gray-900 flex border-t border-b mb-6 border-gray-200 py-2">
-                <span class="text-lg">
-                  Всего заказов:
+              {% endfor %}
+              {% empty %}
+              <a class="text-center text-2xl"></a>
+              <img class="w-40 h-40 block mx-auto mb-10 object-cover object-center rounded" alt="empty_gif" src="https://64.media.tumblr.com/4657dd9a7e9511810751a44bfa250af1/tumblr_owug3x0o8k1qza1qzo1_500.gifv">
+            {% endfor %}              
+              <div class="text-gray-900 flex border-t border-b mb-6 border-gray-200 py-2 font-medium">
+                <span class="text-xl">
+                  Всего заказанных от нас товаров:
                 </span>
-                <span class="ml-auto text-lg">
-                  {{purchaseditem.purchase_items.all.count}}
+                <span class="ml-auto text-xl">
+                  {{product.get_purchases_count}}
                 </span>
               </div>
-                {% endfor %}
-                {% empty %}
-                <a class="text-center text-2xl"></a>
-                <img class="w-40 h-40 block mx-auto mb-10 object-cover object-center rounded" alt="empty_gif" src="https://64.media.tumblr.com/4657dd9a7e9511810751a44bfa250af1/tumblr_owug3x0o8k1qza1qzo1_500.gifv">
-              {% endfor %}
             </div>
-            <img alt="{{product.image}}" class="lg:w-1/2 w-full lg:h-auto h-64 object-cover object-center rounded" src="/{{product.image}}">
-            {% if request.user.is_organiser %}
-            {% endif %}
+            <img alt="{{product.image}}" class="lg:w-1/2 w-full lg:h-1/2 h-full object-cover object-center rounded" src="/{{product.image}}">
           </div>
-        </div>
-      </section>
+          {% if request.user.is_organiser %}
+          {% endif %}
+        </section>
     {% endblock content%}

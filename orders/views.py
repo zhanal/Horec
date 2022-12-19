@@ -188,6 +188,8 @@ def remove_single_item_from_order(request, pk):
             ordered_item.save()
         else:
             order.items.remove(ordered_item)
+            ordered_item.delete()
+            # all good
         messages.info(request, "-1")
         return redirect("orders:order-detail", pk=order.pk)
     else:

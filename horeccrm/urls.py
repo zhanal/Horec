@@ -16,8 +16,7 @@ from django.contrib.auth.views import LoginView, LogoutView
 urlpatterns = [
     path('admin/', admin.site.urls),
 
-    path('', include('catalog.urls', namespace="catalog")),
-    path('', TempPageView.as_view(), name='temp'),    
+    path('', PerformanceView, name='performance'),    
     
     path('catalog/', include('catalog.urls', namespace="catalog")),
     path('orders/', include('orders.urls', namespace="orders")),

@@ -122,7 +122,7 @@ class OrganisationUpdateView(LoginRequiredMixin, generic.UpdateView):
     context_object_name = 'organisation'
 
     def get_success_url(self):
-        return reverse("clients") 
+        return reverse("organisations") 
 
 class OrganisationDeleteView(LoginRequiredMixin, generic.DeleteView):
     template_name = "database/organisation_delete.html"
@@ -144,7 +144,7 @@ def ManagersListView(request):
     }
     return render(request, "database/managers.html", context)
 
-class TempPageView(generic.TemplateView):
+class TempPageView(generic.TemplateView, LoginRequiredMixin):
     template_name = "temp.html"
 
 class SignupView(generic.CreateView):
@@ -341,7 +341,7 @@ def add_to_cart(request, pk):
             order_item[0].quantity += 1
             order_item[0].save()
             messages.info(request, "Кол-во товара увеличилось")
-            return redirect("catalog:catalog-list") #not sure about sintax of the page
+            return redirect("catalog:summary") #not sure about sintax of the page
         else:
             cart.items.add(order_item[0])
             messages.info(request, "Товар добавлен в корзину")
@@ -397,7 +397,7 @@ def remove_single_item_from_cart(request, pk):
                 order_item.quantity -= 1
                 order_item.save()
             else:
-                cart.items.remove(order_item)
+                order_item.delete()
             messages.info(request, "-1")
             return redirect("catalog:summary")
         else:
