@@ -15,14 +15,14 @@ from pathlib import Path
 import environ
 
 env = environ.Env(
-    DEBUG = (bool, False)
+    DEBUG = (bool, True)
 )
 
 READ_DOT_ENV_FILE = env.bool('READ_DOT_ENV_FILE', default=False)
 if READ_DOT_ENV_FILE:
     environ.Env.read_env()
 
-DEBUG=env('DEBUG')
+DEBUG=True
 SECRET_KEY=env('SECRET_KEY')
 print(DEBUG, SECRET_KEY)
 
@@ -94,6 +94,11 @@ WSGI_APPLICATION = 'horeccrm.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
+# DATABASES = {
+#         "default": dj_database_url.parse(os.environ.get("DATABASE_URL")),
+#     }
+
+# env contains my local db server, use it when u need
 DATABASES = {
     'default': {
        'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -134,8 +139,6 @@ TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
-USE_L10N = True
-
 USE_TZ = True
 
 
@@ -144,11 +147,10 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
-    BASE_DIR / 'static'
+    BASE_DIR / "static"
 ]
-
 STATIC_ROOT = "static_root"
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # STATIC_ROOT = os.path.join(BASE_DIR, "static_root")
 # Default primary key field type
@@ -163,6 +165,7 @@ LOGIN_URL = "/login"
 LOGOUT_REDIRECT_URL = "/"
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "tailwind"
+
 CRISPY_TEMPLATE_PACK = "tailwind"
 
 SESSION_COOKIE_AGE = 86400
@@ -172,24 +175,23 @@ CURRENCIES = ('KZT', 'EUR', 'USD', 'RUB')
 CURRENCY_CHOICES = [('USD', 'USD $'), ('EUR', 'EUR €'), ('KZT', 'KZT ₸'), ('RUB', 'RUB ₽')]
 
 if not DEBUG:
-    SECURE_PROXY_SSL_HEADER=('HTTP_X_FORWARDED_PROTO', 'https')
-    SECURE_SSL_REDIRECT=True
-    SESSION_COOKIE_SECURE=True
-    CSRF_COOKIE_SECURE=True
-    SECURE_BROWSER_XSS_FILTER=True
-    SECURE_CONTENT_TYPE_NOSNIFF=True
-    SECURE_HSTS_SECONDS=31536000  # 1 year
-    SECURE_HSTS_INCLUDE_SUBDOMAINS=True
-    SECURE_HSTS_PRELOAD=True
-    X_FRAME_OPTIONS="DENY"
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    SECURE_SSL_REDIRECT = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SECURE_BROWSER_XSS_FILTER = True
+    SECURE_CONTENT_TYPE_NOSNIFF = True
+    SECURE_HSTS_SECONDS = 31536000  # 1 year
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
+    X_FRAME_OPTIONS = "DENY"
 
-    ALLOWED_HOSTS=["*"]
+    ALLOWED_HOSTS = ['*']
 
-    # EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-    # EMAIL_HOST = env("EMAIL_HOST")
-    # EMAIL_HOST_USER = env("EMAIL_HOST_USER")
-    # EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
-    # EMAIL_USE_TLS = True
-    # EMAIL_PORT = env("EMAIL_PORT")
-    # DEFAULT_FROM_EMAIL = env("DEFAULT_FROM_EMAIL")
-
+#     EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+#     EMAIL_HOST = env("EMAIL_HOST")
+#     EMAIL_HOST_USER = env("EMAIL_HOST_USER")
+#     EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
+#     EMAIL_USE_TLS = True
+#     EMAIL_PORT = env("EMAIL_PORT")
+#     DEFAULT_FROM_EMAIL = env("DEFAULT_FROM_EMAIL")
