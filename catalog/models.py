@@ -1,4 +1,3 @@
-import code
 from django.db import models
 from django.core import validators
 from djmoney.models.fields import MoneyField
